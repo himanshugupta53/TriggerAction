@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TriggerAction</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_add_triggeraction">Add Trigger Action</string>
+    <string name="title_activity_custom_list">CustomListActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_trigger">TriggerActivity</string>
+    <string name="action_back">Back</string>
+    <string name="title_activity_custom_expandable_list">CustomExpandableListActivity</string>
+    <string name="title_activity_popup">PopupActivity</string>
+    <string name="title_activity_action">ActionActivity</string>
+
+</resources>
