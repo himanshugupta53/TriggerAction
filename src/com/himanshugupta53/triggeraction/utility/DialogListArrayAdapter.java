@@ -1,5 +1,7 @@
 package com.himanshugupta53.triggeraction.utility;
 
+import java.util.List;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,8 @@ public class DialogListArrayAdapter extends CustomArrayAdapter {
 		public TextView textView;
 	}
 	
-	public DialogListArrayAdapter(Context context, String[] values) {
-		super(context, R.layout.dialog_list_row, values);
+	public DialogListArrayAdapter(Context context, List<String> values) {
+		super(context, R.layout.dialog_list_row, values, null);
 		clickListener = (OnClickListener) context;
 	}
 
@@ -38,7 +40,7 @@ public class DialogListArrayAdapter extends CustomArrayAdapter {
 
 		// fill data
 		ViewHolder holder = (ViewHolder) rowView.getTag();
-		String s = values[position];
+		String s = titleValues[position];
 		holder.textView.setText(s);
 
 		return rowView;

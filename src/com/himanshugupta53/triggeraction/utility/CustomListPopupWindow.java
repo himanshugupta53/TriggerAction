@@ -1,5 +1,8 @@
 package com.himanshugupta53.triggeraction.utility;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +19,7 @@ import com.himanshugupta53.triggeraction.R;
 public class CustomListPopupWindow extends ListPopupWindow implements OnItemClickListener {
 
 	Activity context = null;
-	private String[] listOfItems = null;
+	private List<String> listOfItems = null;
 	private View anchorView = null;
 	private int verticalOffset, horizontalOffset;
 	private OnItemClickListener clickListener = this;
@@ -24,14 +27,14 @@ public class CustomListPopupWindow extends ListPopupWindow implements OnItemClic
 	public CustomListPopupWindow(Context _context) {
 		super(_context);
 		context = (Activity)_context;
-		listOfItems = new String[]{};
+		listOfItems = new ArrayList<String>();
 		anchorView = context.findViewById(R.id.action_back);
 		verticalOffset = 10;
 		horizontalOffset = -500;
 		clickListener = this;
 	}
 	
-	public void setListOfItems(String[] list){
+	public void setListOfItems(ArrayList<String> list){
 		listOfItems = list;
 	}
 	
@@ -41,7 +44,7 @@ public class CustomListPopupWindow extends ListPopupWindow implements OnItemClic
 	
 	@SuppressLint("NewApi")
 	public void show(){
-		CustomArrayAdapter adapter = new CustomArrayAdapter(context, listOfItems);
+		CustomArrayAdapter adapter = new CustomArrayAdapter(context, listOfItems, null);
 		setAdapter(adapter);
 		setAnchorView(anchorView);
 		setVerticalOffset(verticalOffset);

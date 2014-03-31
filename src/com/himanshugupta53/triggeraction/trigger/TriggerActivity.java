@@ -1,6 +1,9 @@
 package com.himanshugupta53.triggeraction.trigger;
 
-import android.annotation.SuppressLint;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,14 +17,24 @@ import com.himanshugupta53.triggeraction.action.ActionActivity;
 import com.himanshugupta53.triggeraction.utility.CustomListActivity;
 import com.himanshugupta53.triggeraction.utility.DialogList;
 
-@SuppressLint("NewApi")
 public class TriggerActivity extends CustomListActivity implements OnClickListener {
 
 	private DialogList dialog;
+	private List<String> groupList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.setValues(new String[] {"Camera", "Laptop", "Watch","Smartphone", "Television"});
+		Set<String> groupStrings = TriggerModelGroup.getGroupStrings();
+		List<String> titleStrings = new ArrayList<String>();
+		List<String> descriptionStrings = new ArrayList<String>();
+		groupList = new ArrayList<String>();
+		for (String grp : groupStrings){
+			titleStrings.add(TriggerModelGroup.getTitleOfGroup(this, grp));
+			descriptionStrings.add(TriggerModelGroup.getDescriptionOfGroup(this, grp));
+			groupList.add(grp);
+		}
+		super.setTitleValues(titleStrings);
+		super.setDescriptionValues(descriptionStrings);
 		super.onCreate(savedInstanceState);
 	}
 
@@ -45,16 +58,11 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
 		return true;
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-//		CustomListPopupWindow listPopupWindow = new CustomListPopupWindow(this);
-//		listPopupWindow.setClickListener(this);
-//		listPopupWindow.setListOfItems(new String[]{"abc", "def", "ghi", "jkl", "mno", "pqr", "stu", "vxy"});
-//		listPopupWindow.show();
-		
 		dialog = new DialogList(this);
-		dialog.setValues(new String[] {"abc", "def", "ghi", "jkl", "mno", "pqr", "stu", "vxy"});
+		TriggerModelGroup[] tMG = TriggerModelGroup.getTriggersOfGroup(groupList.get(position));
+		dialog.setValues(tMG);
 		dialog.show();
 }
 

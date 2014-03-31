@@ -1,5 +1,7 @@
 package com.himanshugupta53.triggeraction.utility;
 
+import java.util.List;
+
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,13 +14,17 @@ import com.himanshugupta53.triggeraction.R;
 
 public class CustomListActivity extends ListActivity {
 
-	String[] values;
+	List<String> titleValues, descriptionValues;
 	int layout = -1;
 
-	protected void setValues(String[] vals){
-		values = vals;
+	protected void setTitleValues(List<String> vals){
+		titleValues = vals;
 	}
 
+	protected void setDescriptionValues(List<String> vals){
+		descriptionValues = vals;
+	}
+	
 	protected void setLayout(int _layout){
 		layout = _layout;
 	}
@@ -29,10 +35,10 @@ public class CustomListActivity extends ListActivity {
 		setContentView(R.layout.custom_list_view);
 		CustomArrayAdapter adapter = null;
 		if (layout == -1){
-			adapter = new CustomArrayAdapter(this, values);
+			adapter = new CustomArrayAdapter(this, titleValues, descriptionValues);
 		}
 		else{
-			adapter = new CustomArrayAdapter(this, layout, values);
+			adapter = new CustomArrayAdapter(this, layout, titleValues, descriptionValues);
 		}
 		setListAdapter(adapter);
 	}

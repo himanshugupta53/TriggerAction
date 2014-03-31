@@ -12,5 +12,48 @@
     <string name="title_activity_custom_expandable_list">CustomExpandableListActivity</string>
     <string name="title_activity_popup">PopupActivity</string>
     <string name="title_activity_action">ActionActivity</string>
-
+    
+    
+    <string name="wifi_title">Wifi</string>
+    <string name="wifi_description">Switching on/off your Wifi, connecting to a network</string>
+    <string name="bluetooth_title">Bluetooth</string>
+    <string name="bluetooth_description">Define a trigger point on switching on/off your bluetooth</string>
+	<string name="battery_title">Battery Meter</string>
+    <string name="battery_description">Save your batter by defining trigger points when battery is low</string>
+    <string name="sms_title">Message Sent/Received</string>
+    <string name="sms_description">Want to do something when a message is received?</string>
+    <string name="phonecall_title">Phone Call Made/Received</string>
+    <string name="phonecall_description">Want to do something when you get a phone call?</string>
+    <string name="lock_title">On unlocking your phone</string>
+    <string name="lock_description">Every time I unlock my phone, I want &#8230;</string>
+    <string name="app_title">Open an app</string>
+    <string name="app_description">Whenever I open an app, I want &#8230;</string>
+    <string name="gps_title">GPS switched on/off</string>
+    <string name="gps_description">Whenever I switch on my gps, I want to send an sms about my location</string>
+    <string name="time_title">Time Reminders</string>
+    <string name="time_description">Don\'t disturb me from 11pm to 6am.</string>
+    
+    <string name="wifi_switched_on_fulldescription">Create a trigger point when you switch on your wifi</string>
+    <string name="wifi_switched_off_fulldescription">Create a trigger point when you switch off your wifi</string>
+    <string name="wifi_connected_to_any_network_fulldescription">Create a trigger point when you connect to a wifi hotspot</string>
+    <string name="wifi_disconnected_from_any_network_fulldescription">Create a trigger point when you disconnect from a wifi hotspot</string>
+    <string name="wifi_connected_to_specific_network_fulldescription">Create a trigger point when you connect to a specific wifi hotspot</string>
+    <string name="wifi_disconnected_from_specific_network_fulldescription">Create a trigger point when you disconnect from a specific wifi hotspot</string>
+    <string name="bluetooth_switched_on_fulldescription">Create a trigger point when you switch on your bluetooth</string>
+    <string name="bluetooth_switched_off_fulldescription">Create a trigger point when you switch off your bluetooth</string>
+    <string name="battery_level_dips_to_fulldescription">Create a trigger point when your battery level dips to a specified point</string>
+    <string name="battery_level_rises_to_fulldescription">Create a trigger point when your battery level rises to a specified point</string>
+    <string name="sms_received_fulldescription">Create a trigger point when you receive an sms</string>
+    <string name="sms_sent_fulldescription">Create a trigger point when you send an sms</string>
+    <string name="phone_call_received_fulldescription">Create a trigger point when you receive a phone call</string>
+    <string name="phone_call_made_fulldescription">Create a trigger point when you make a phone call</string>
+    <string name="phone_locked_fulldescription">Create a trigger point when you lock your phone</string>
+    <string name="phone_unlocked_fulldescription">Create a trigger point when you unlock your phone</string>
+    <string name="app_opened_any_fulldescription">Create a trigger point when you open an app</string>
+    <string name="app_opened_specific_fulldescription">Create a trigger point when you open a specified app</string>
+    <string name="gps_switched_on_fulldescription">Create a trigger point when you switch on your gps</string>
+    <string name="gps_switched_off_fulldescription">Create a trigger point when you switch off your gps</string>
+    <string name="time_at_fulldescription">Create a reminder for a specified time</string>
+    <string name="time_from_to_fulldescription">Do an action for a specified period of time</string>
+    
 </resources>

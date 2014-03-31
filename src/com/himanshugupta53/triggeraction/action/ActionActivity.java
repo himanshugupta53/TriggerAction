@@ -1,5 +1,7 @@
 package com.himanshugupta53.triggeraction.action;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +13,7 @@ public class ActionActivity extends CustomListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.setValues(new String[] {"Camera", "Laptop", "Watch","Smartphone", "Television"});
+		super.setTitleValues(new ArrayList<String>());
 		super.onCreate(savedInstanceState);
 	}
 
