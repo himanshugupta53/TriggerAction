@@ -4,24 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.himanshugupta53.triggeraction.R;
 import com.himanshugupta53.triggeraction.action.ActionActivity;
+import com.himanshugupta53.triggeraction.utility.Config;
 import com.himanshugupta53.triggeraction.utility.CustomListActivity;
 import com.himanshugupta53.triggeraction.utility.DialogList;
+import com.himanshugupta53.triggeraction.utility.WifiCustomManager;
 
 public class TriggerActivity extends CustomListActivity implements OnClickListener {
 
 	private DialogList dialog;
 	private List<String> groupList;
-	
+	private TriggerDialog triggerInputDialog;
+	private Handler handler;
+    private ProgressDialog progress;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Set<String> groupStrings = TriggerModelGroup.getGroupStrings();
@@ -64,7 +74,7 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
 		TriggerModelGroup[] tMG = TriggerModelGroup.getTriggersOfGroup(groupList.get(position));
 		dialog.setValues(tMG);
 		dialog.show();
-}
+	}
 
 
 	@Override
@@ -74,8 +84,48 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
 
 	@Override
 	public void onClick(View v) {
+		TextView textView = (TextView) v.findViewById(R.id.textView);
+		TriggerModelGroup tMG = (TriggerModelGroup)textView.getTag();
+		Config.trigger = tMG;
 		dialog.hide();
-		Intent intent = new Intent(this, ActionActivity.class);
-		startActivity(intent);
+		if (tMG.getNoOfInputs() == 0){
+			Intent intent = new Intent(this, ActionActivity.class);
+			startActivity(intent);
+		}
+		else{
+			triggerInputDialog = Config.trigger.getDialogPopup(this);
+			this.showProgessDialog();
+		}
+	}
+	
+	public void showProgessDialog(){
+		progress = new ProgressDialog(this);
+        progress.setTitle("Please Wait!!");
+        progress.setMessage("Wait!!");
+        progress.setCancelable(false);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        
+        handler = new Handler()
+        {
+
+            @Override
+            public void handleMessage(Message msg)
+            {
+                progress.dismiss();
+                ((WifiScanResultsAvailableDialog) triggerInputDialog).setWifiScanResult((List<String>)msg.obj);
+                triggerInputDialog.show();
+                super.handleMessage(msg);
+            }
+
+        };
+        
+        progress.show();
+        triggerInputDialog.startActivity();
+	}
+	
+	public void hideProgressDialog(List<String> list){
+		Message msg = Message.obtain();
+		msg.obj = list;
+		handler.dispatchMessage(msg);
 	}
 }

@@ -1,7 +1,9 @@
 package com.himanshugupta53.triggeraction.utility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
@@ -29,12 +31,16 @@ public class DialogList extends CustomDialog {
 	
 	@Override
 	public void setValuesToLayoutFields() {
-		CustomArrayAdapter adapter = null;
+		DialogListArrayAdapter adapter = null;
+		Map<String, TriggerModelGroup> map = new HashMap<String, TriggerModelGroup>();
 		List<String> strVals = new ArrayList<String>();
 		for (TriggerModelGroup t : values){
-			strVals.add(t.getFullDescription(context));
+			String desc = t.getFullDescription(context);
+			strVals.add(desc);
+			map.put(desc, t);
 		}
 		adapter = new DialogListArrayAdapter(context, strVals);
+		adapter.setTMGMap(map);
 		ListView lV = (ListView) findViewById(R.id.dialogList);
 		lV.setAdapter(adapter);
 	}
