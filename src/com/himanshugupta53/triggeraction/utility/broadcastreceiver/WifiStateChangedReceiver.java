@@ -21,6 +21,12 @@ public class WifiStateChangedReceiver extends BroadcastReceiver {
     			    mBluetoothAdapter.enable(); 
     			}
     			break;
+    		case WifiManager.WIFI_STATE_DISABLED:
+    			if (Config.action == ActionModelGroup.BLUETOOTH_SWITCH_ON){
+    				BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();    
+    			    mBluetoothAdapter.enable(); 
+    			}
+    			break;
     	}
 	}
 

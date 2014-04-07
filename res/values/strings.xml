@@ -41,8 +41,10 @@
     <string name="wifi_disconnected_from_specific_network_trigger_fulldescription">Create a trigger point when you disconnect from a specific wifi hotspot</string>
     <string name="bluetooth_switched_on_trigger_fulldescription">Create a trigger point when you switch on your bluetooth</string>
     <string name="bluetooth_switched_off_trigger_fulldescription">Create a trigger point when you switch off your bluetooth</string>
-    <string name="battery_level_dips_to_trigger_fulldescription">Create a trigger point when your battery level dips to a specified point</string>
-    <string name="battery_level_rises_to_trigger_fulldescription">Create a trigger point when your battery level rises to a specified point</string>
+    <string name="battery_level_low_trigger_fulldescription">Battery level is low</string>
+    <string name="battery_level_okay_trigger_fulldescription">Battery level is back to okay</string>
+    <string name="power_connected_trigger_fulldescription">When you connect your phone to a charger</string>
+    <string name="power_disconnected_trigger_fulldescription">When you disconnect your phone from a charger</string>
     <string name="sms_received_trigger_fulldescription">Create a trigger point when you receive an sms</string>
     <string name="sms_sent_trigger_fulldescription">Create a trigger point when you send an sms</string>
     <string name="phone_call_received_trigger_fulldescription">Create a trigger point when you receive a phone call</string>
@@ -55,7 +57,6 @@
     <string name="gps_switched_off_trigger_fulldescription">Create a trigger point when you switch off your gps</string>
     <string name="time_at_trigger_fulldescription">Create a reminder for a specified time</string>
     <string name="time_from_to_trigger_fulldescription">Do an action for a specified period of time</string>
-    
     
     <string name="wifi_switch_on_action_title">Wifi</string>
     <string name="wifi_switch_on_action_description">Switch on your Wifi</string>

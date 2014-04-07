@@ -1,7 +1,6 @@
 package com.himanshugupta53.triggeraction.utility;
 
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,12 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.himanshugupta53.triggeraction.R;
-import com.himanshugupta53.triggeraction.trigger.TriggerModelGroup;
 
 public class DialogListArrayAdapter extends CustomArrayAdapter {
 
 	protected OnClickListener clickListener;
-	Map<String, TriggerModelGroup> tMGMap;
+	List<?> data = null;
 	
 	static class ViewHolder {
 		public TextView textView;
@@ -27,8 +25,12 @@ public class DialogListArrayAdapter extends CustomArrayAdapter {
 		clickListener = (OnClickListener) context;
 	}
 
-	public void setTMGMap(Map<String, TriggerModelGroup> map){
-		tMGMap = map;
+	public void setClickListener(OnClickListener listener){
+		clickListener = listener;
+	}
+	
+	public void setData(List<?> _data){
+		data = _data;
 	}
 	
 	@Override
@@ -49,8 +51,8 @@ public class DialogListArrayAdapter extends CustomArrayAdapter {
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		String s = titleValues[position];
 		holder.textView.setText(s);
-		if (tMGMap != null)
-			holder.textView.setTag(tMGMap.get(s));
+		if (data != null)
+			holder.textView.setTag(data.get(position));
 
 		return rowView;
 	}

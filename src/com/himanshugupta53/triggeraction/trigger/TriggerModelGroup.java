@@ -1,12 +1,19 @@
 package com.himanshugupta53.triggeraction.trigger;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
+import android.net.wifi.WifiManager;
 
 import com.himanshugupta53.triggeraction.R;
-import com.himanshugupta53.triggeraction.utility.CustomDialog;
+import com.himanshugupta53.triggeraction.utility.broadcastreceiver.AppOpened;
+import com.himanshugupta53.triggeraction.utility.broadcastreceiver.WifiConnected;
+import com.himanshugupta53.triggeraction.utility.broadcastreceiver.WifiStateChangedReceiver;
 
 public enum TriggerModelGroup {
 	WIFI_SWITCHED_ON("WIFI", 0),
@@ -17,8 +24,10 @@ public enum TriggerModelGroup {
 	WIFI_DISCONNECTED_FROM_SPECIFIC_NETWORK("WIFI", 1),
 	BLUETOOTH_SWITCHED_ON("BLUETOOTH", 0),
 	BLUETOOTH_SWITCHED_OFF("BLUETOOTH", 0),
-	BATTERY_LEVEL_DIPS_TO("BATTERY", 1),
-	BATTERY_LEVEL_RISES_TO("BATTERY", 1),
+	BATTERY_LEVEL_LOW("BATTERY", 0),
+	BATTERY_LEVEL_OKAY("BATTERY", 0),
+	POWER_CONNECTED("BATTERY", 0),
+	POWER_DISCONNECTED("BATTERY", 0),
 	SMS_RECEIVED("SMS", 0),
 	SMS_SENT("SMS", 0),
 	PHONE_CALL_RECEIVED("PHONECALL", 0),
@@ -114,22 +123,16 @@ public enum TriggerModelGroup {
 		return fulldescription;
 	}
 
-	public static TriggerModelGroup[] getTriggersOfGroup(String grp){
+	public static List<TriggerModelGroup> getTriggersOfGroup(String grp){
 		if (grp == null)
 			return null;
 		TriggerModelGroup[] values = TriggerModelGroup.values();
-		int count = 0;
+		List<TriggerModelGroup> list = new ArrayList<TriggerModelGroup>();
 		for (TriggerModelGroup t : values){
 			if (t.getGroupName().equals(grp))
-				count++;
+				list.add(t);
 		}
-		TriggerModelGroup[] tmg = new TriggerModelGroup[count];
-		int i=0;
-		for (TriggerModelGroup t : values){
-			if (t.getGroupName().equals(grp))
-				tmg[i++] = t;
-		}
-		return tmg;
+		return list;
 	}
 
 	public static String getTitleOfGroup(Activity context, String grp){
@@ -168,14 +171,14 @@ public enum TriggerModelGroup {
 		switch(this){
 		
 		case WIFI_CONNECTED_TO_SPECIFIC_NETWORK:
-			return new WifiScanResultsAvailableDialog(context);
 		case WIFI_DISCONNECTED_FROM_SPECIFIC_NETWORK:
-		case BATTERY_LEVEL_DIPS_TO:
-		case BATTERY_LEVEL_RISES_TO:
+			return new WifiScanResultsAvailableDialog(context);
 		case APP_OPENED_SPECIFIC:
+			return new ListOfAppsDialog(context);
 		case TIME_AT:
+			return new TimeAtDialog(context);
 		case TIME_FROM_TO:
-		
+			return new TimeAtDialog(context);
 		case WIFI_SWITCHED_ON:
 		case WIFI_SWITCHED_OFF:
 		case WIFI_CONNECTED_TO_ANY_NETWORK:
@@ -191,9 +194,53 @@ public enum TriggerModelGroup {
 		case APP_OPENED_ANY:
 		case GPS_SWITCHED_ON:
 		case GPS_SWITCHED_OFF:
+		case BATTERY_LEVEL_LOW:
+		case BATTERY_LEVEL_OKAY:
+		case POWER_CONNECTED:
+		case POWER_DISCONNECTED:
 			default:
 				return null;
 			
+		}
+	}
+	
+	public void registerBroadcastReceiver(Activity context){
+		switch(this){
+		case WIFI_CONNECTED_TO_SPECIFIC_NETWORK:
+		case WIFI_DISCONNECTED_FROM_SPECIFIC_NETWORK:
+		case WIFI_CONNECTED_TO_ANY_NETWORK:
+		case WIFI_DISCONNECTED_FROM_ANY_NETWORK:
+			BroadcastReceiver wifiConnectedReceiver = new WifiConnected();
+			context.registerReceiver(wifiConnectedReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+			break;
+		case APP_OPENED_ANY:
+		case APP_OPENED_SPECIFIC:
+			AppOpened receiver = new AppOpened();
+			context.registerReceiver(receiver, new IntentFilter("AppOpened"));
+			break;
+		case WIFI_SWITCHED_ON:
+		case WIFI_SWITCHED_OFF:
+			BroadcastReceiver wifiStateChangedReceiver = new WifiStateChangedReceiver();
+			context.registerReceiver(wifiStateChangedReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
+			break;
+		
+		case BLUETOOTH_SWITCHED_ON:
+		case BLUETOOTH_SWITCHED_OFF:
+		case SMS_RECEIVED:
+		case SMS_SENT:
+		case PHONE_CALL_RECEIVED:
+		case PHONE_CALL_MADE:
+		case PHONE_LOCKED:
+		case PHONE_UNLOCKED:
+		case GPS_SWITCHED_ON:
+		case GPS_SWITCHED_OFF:
+		case BATTERY_LEVEL_LOW:
+		case BATTERY_LEVEL_OKAY:
+		case POWER_CONNECTED:
+		case POWER_DISCONNECTED:
+		case TIME_AT:
+		case TIME_FROM_TO:
+			default:
 		}
 	}
 

@@ -6,4 +6,5 @@ import com.himanshugupta53.triggeraction.trigger.TriggerModelGroup;
 public class Config {
 	public static TriggerModelGroup trigger;
 	public static ActionModelGroup action;
+	public static Object triggerVal1, triggerVal2;
 }

@@ -40,12 +40,6 @@ public class WifiScanResultsAvailable extends BroadcastReceiver {
     			accessPts.add(temp[j]);
     		}
     		triggerDialog.finishActivity();
-//    		String[] SSIDsOfWifiAccessPtsArray = new String[length];
-//    		for (int j=0; j<length; j++){
-//    			SSIDsOfWifiAccessPtsArray[j] = temp[j];
-//    		}
-//    		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, SSIDsOfWifiAccessPtsArray);
-//    		((ListActivity) context).setListAdapter(dataAdapter); 
     	}
 	}
 

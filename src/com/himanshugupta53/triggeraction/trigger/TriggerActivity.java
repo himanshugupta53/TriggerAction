@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import com.himanshugupta53.triggeraction.action.ActionActivity;
 import com.himanshugupta53.triggeraction.utility.Config;
 import com.himanshugupta53.triggeraction.utility.CustomListActivity;
 import com.himanshugupta53.triggeraction.utility.DialogList;
-import com.himanshugupta53.triggeraction.utility.WifiCustomManager;
 
 public class TriggerActivity extends CustomListActivity implements OnClickListener {
 
@@ -71,8 +69,13 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		dialog = new DialogList(this);
-		TriggerModelGroup[] tMG = TriggerModelGroup.getTriggersOfGroup(groupList.get(position));
-		dialog.setValues(tMG);
+		List<TriggerModelGroup> tMG = TriggerModelGroup.getTriggersOfGroup(groupList.get(position));
+		List<String> tMGstr = new ArrayList<String>();
+		for (TriggerModelGroup t : tMG){
+			tMGstr.add(t.getFullDescription(this));
+		}
+		dialog.setValues(tMGstr);
+		dialog.setData(tMG);
 		dialog.show();
 	}
 
@@ -98,6 +101,11 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
 		}
 	}
 	
+	public void goToActionActivity(){
+		Intent intent = new Intent(this, ActionActivity.class);
+		startActivity(intent);
+	}
+	
 	public void showProgessDialog(){
 		progress = new ProgressDialog(this);
         progress.setTitle("Please Wait!!");
@@ -112,7 +120,7 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
             public void handleMessage(Message msg)
             {
                 progress.dismiss();
-                ((WifiScanResultsAvailableDialog) triggerInputDialog).setWifiScanResult((List<String>)msg.obj);
+                triggerInputDialog.setResult(msg.obj);
                 triggerInputDialog.show();
                 super.handleMessage(msg);
             }
@@ -123,7 +131,7 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
         triggerInputDialog.startActivity();
 	}
 	
-	public void hideProgressDialog(List<String> list){
+	public void hideProgressDialog(Object list){
 		Message msg = Message.obtain();
 		msg.obj = list;
 		handler.dispatchMessage(msg);

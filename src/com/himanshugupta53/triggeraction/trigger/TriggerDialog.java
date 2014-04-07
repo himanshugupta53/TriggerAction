@@ -12,4 +12,5 @@ public abstract class TriggerDialog extends CustomDialog {
 
 	public abstract void startActivity();
 	public abstract void finishActivity();
+	public abstract void setResult(Object o);
 }

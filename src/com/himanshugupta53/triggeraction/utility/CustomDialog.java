@@ -9,9 +9,11 @@ public abstract class CustomDialog extends Dialog {
 
 	private int dialogLayout;
 	private String title;
+	protected Context context;
 	
-	public CustomDialog(Context context) {
-		super(context);
+	public CustomDialog(Context _context) {
+		super(_context);
+		context = _context;
 		dialogLayout = R.layout.custom_dialog;
 		title = "Trigger Action";
 	}
