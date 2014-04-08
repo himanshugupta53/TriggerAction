@@ -4,8 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 
 import com.himanshugupta53.triggeraction.R;
+import com.himanshugupta53.triggeraction.utility.WifiCustomManager;
 
 public enum ActionModelGroup {
 	WIFI_SWITCH_ON("WIFI", 0),
@@ -15,16 +17,16 @@ public enum ActionModelGroup {
 	GPS_SWITCH_ON("GPS", 0),
 	GPS_SWITCH_OFF("GPS", 0),
 	APP_SPECIFIC_OPEN("APP", 1);
-	
-	
+
+
 	private String groupName = null, title = null, description = null, fulldescription = null;
 	private int noOfInputs = 0;
-	
+
 	private ActionModelGroup(String grpName, int num){
 		groupName = grpName;
 		noOfInputs = num;
 	}
-	
+
 	public String getGroupName(){
 		return groupName;
 	}
@@ -76,7 +78,7 @@ public enum ActionModelGroup {
 		}
 		return description;
 	}
-	
+
 	public String getFullDescription(Activity context){
 		if (fulldescription == null){
 			int var = -1;
@@ -145,6 +147,24 @@ public enum ActionModelGroup {
 		}
 		return groups;
 	}
-	
+
+	public void performAction(){
+		switch(this){
+		case WIFI_SWITCH_ON:
+			WifiCustomManager.getInstance().enableWifi();
+		case WIFI_SWITCH_OFF:
+			WifiCustomManager.getInstance().disableWifi();
+		case BLUETOOTH_SWITCH_ON:
+			BluetoothAdapter.getDefaultAdapter().enable();
+		    break;
+		case BLUETOOTH_SWITCH_OFF:
+			BluetoothAdapter.getDefaultAdapter().disable();    
+		    break;
+		case GPS_SWITCH_ON:
+		case GPS_SWITCH_OFF:
+		case APP_SPECIFIC_OPEN:
+		default:
+		}
+	}
 
 }

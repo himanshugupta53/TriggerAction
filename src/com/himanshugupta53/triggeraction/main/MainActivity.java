@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.himanshugupta53.triggeraction.R;
 import com.himanshugupta53.triggeraction.trigger.TriggerActivity;
+import com.himanshugupta53.triggeraction.utility.MyService;
+import com.himanshugupta53.triggeraction.utility.MyUserPreferences;
 
 public class MainActivity extends Activity {
 
@@ -16,6 +18,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		MyUserPreferences.setContext(this);
+		Intent intent= new Intent(this, MyService.class);
+		startService(intent);
 	}
 
 	@Override

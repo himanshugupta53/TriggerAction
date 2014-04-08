@@ -46,7 +46,6 @@
     <string name="power_connected_trigger_fulldescription">When you connect your phone to a charger</string>
     <string name="power_disconnected_trigger_fulldescription">When you disconnect your phone from a charger</string>
     <string name="sms_received_trigger_fulldescription">Create a trigger point when you receive an sms</string>
-    <string name="sms_sent_trigger_fulldescription">Create a trigger point when you send an sms</string>
     <string name="phone_call_received_trigger_fulldescription">Create a trigger point when you receive a phone call</string>
     <string name="phone_call_made_trigger_fulldescription">Create a trigger point when you make a phone call</string>
     <string name="phone_locked_trigger_fulldescription">Create a trigger point when you lock your phone</string>

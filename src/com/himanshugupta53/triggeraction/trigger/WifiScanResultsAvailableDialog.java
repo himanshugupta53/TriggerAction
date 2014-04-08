@@ -75,7 +75,7 @@ public class WifiScanResultsAvailableDialog extends TriggerDialog implements OnC
 			onBackPressed();
 		}
 		else if (v == okButton){
-			Config.triggerVal1 = wifiSSID.getText();
+			Config.addTriggerInput(wifiSSID.getText().toString());
 			((TriggerActivity)context).goToActionActivity();
 			onBackPressed();
 		}

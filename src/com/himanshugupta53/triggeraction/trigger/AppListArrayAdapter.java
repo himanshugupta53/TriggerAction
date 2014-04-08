@@ -76,6 +76,7 @@ public class AppListArrayAdapter extends CustomArrayAdapter {
 		Drawable dr = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, 72, 72, true));
 		holder.appName.setText(titleValues[position]);
 		holder.image.setImageDrawable(dr);
+		holder.appName.setTag(packageList.get(position).packageName);
 		
 		return rowView;
 	}

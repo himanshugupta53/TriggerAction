@@ -1,7 +1,5 @@
 package com.himanshugupta53.triggeraction.action;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +19,7 @@ import com.himanshugupta53.triggeraction.trigger.TriggerModelGroup;
 import com.himanshugupta53.triggeraction.utility.Config;
 import com.himanshugupta53.triggeraction.utility.CustomListActivity;
 import com.himanshugupta53.triggeraction.utility.MyService;
+import com.himanshugupta53.triggeraction.utility.TriggerActionParser;
 import com.himanshugupta53.triggeraction.utility.broadcastreceiver.WifiStateChangedReceiver;
 
 public class ActionActivity extends CustomListActivity {
@@ -65,17 +64,12 @@ public class ActionActivity extends CustomListActivity {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		ActionModelGroup aMG = actionModelGroupValues[position];
 		Config.action = aMG;
-		
-		Toast.makeText(this, "Trigger is "+Config.trigger.toString()+" and Action is "+Config.action.toString(), Toast.LENGTH_LONG).show();
-		
-		if (Config.trigger == TriggerModelGroup.WIFI_SWITCHED_ON){
-			BroadcastReceiver wifiStateChangedReceiver = new WifiStateChangedReceiver();
-			registerReceiver(wifiStateChangedReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
-		}
-		else if (Config.trigger == TriggerModelGroup.APP_OPENED_SPECIFIC || Config.trigger == TriggerModelGroup.APP_OPENED_ANY){
-			Intent intent= new Intent(this, MyService.class);
-			startService(intent); 
-		}
+		TriggerActionParser triggerAction = new TriggerActionParser();
+		triggerAction.trigger = Config.trigger;
+		triggerAction.action = Config.action;
+		triggerAction.triggerInputs = Config.getTriggerInputs();
+		triggerAction.actionInputs = Config.getActionInputs();
+		triggerAction.performActionOnTrigger(this);
 	}
 
 }

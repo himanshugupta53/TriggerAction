@@ -47,6 +47,14 @@ public class WifiCustomManager{
 		return isConnected;
 	}
 	
+	public void enableWifi(){
+		wifiManager.setWifiEnabled(true);;
+	}
+	
+	public void disableWifi(){
+		wifiManager.setWifiEnabled(false);;
+	}
+	
 	public String getConnectedWifiSSID(){
 		String ssid = "none";
 		WifiInfo wifiInfo = wifiManager.getConnectionInfo();

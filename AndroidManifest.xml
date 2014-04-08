@@ -13,6 +13,10 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
@@ -50,21 +54,46 @@
         </activity>
 
         <receiver android:name=".utility.broadcastreceiver.WifiStateChangedReceiver" >
-            <intent-filter
-                android:enabled="true"
-                android:exported="false" >
+            <intent-filter>
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
         <service android:permission="android.permission.READ_LOGS" android:name=".utility.MyService"></service>
-        <receiver android:name=".utility.broadcastreceiver.WifiScanResultsAvailable">
+        <receiver android:name=".utility.broadcastreceiver.AppOpened">
+            <intent-filter>
+                <action android:name="AppOpened"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".utility.broadcastreceiver.SMSReceived">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".utility.broadcastreceiver.PhoneCallReceived">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".utility.broadcastreceiver.PhoneCallMade">
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".utility.broadcastreceiver.WifiConnected">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
-        <receiver android:name=".utility.broadcastreceiver.AppOpened">
+        <receiver android:name=".utility.broadcastreceiver.ScreenLock">
             <intent-filter>
-                <action android:name="AppOpened"/>
+                <action android:name="android.intent.action.ACTION_SCREEN_ON"/>
+                <action android:name="android.intent.action.ACTION_SCREEN_OFF"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".utility.broadcastreceiver.GPSStateChanged">
+            <intent-filter>
+                <action android:name="android.location.PROVIDERS_CHANGED"/>
             </intent-filter>
         </receiver>
     </application>

@@ -90,7 +90,7 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
 		TextView textView = (TextView) v.findViewById(R.id.textView);
 		TriggerModelGroup tMG = (TriggerModelGroup)textView.getTag();
 		Config.trigger = tMG;
-		dialog.hide();
+		dialog.dismiss();
 		if (tMG.getNoOfInputs() == 0){
 			Intent intent = new Intent(this, ActionActivity.class);
 			startActivity(intent);

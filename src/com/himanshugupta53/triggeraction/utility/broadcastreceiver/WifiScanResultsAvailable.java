@@ -25,7 +25,7 @@ public class WifiScanResultsAvailable extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if (intent.getAction() == WifiManager.SCAN_RESULTS_AVAILABLE_ACTION){
-    		List listOfAccessPts = WifiCustomManager.getInstance().getWifiAccessPoints();
+    		List listOfAccessPts = WifiCustomManager.getInstance(context).getWifiAccessPoints();
     		int size = listOfAccessPts.size();
     		String[] temp = new String[size];
     		int length=0;

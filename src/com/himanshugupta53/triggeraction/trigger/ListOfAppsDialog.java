@@ -7,9 +7,9 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,6 +21,7 @@ public class ListOfAppsDialog extends TriggerDialog implements OnClickListener{
 
 	private PackageManager packageManager;
 	private List<PackageInfo> packageList;
+	boolean removeSystemApps = true;
 
 	public ListOfAppsDialog(Context context) {
 		super(context);
@@ -35,7 +36,7 @@ public class ListOfAppsDialog extends TriggerDialog implements OnClickListener{
 
 		/*To filter out System apps*/
 		for(PackageInfo pi : packageListTemp) {
-			boolean b = isSystemPackage(pi);
+			boolean b = removeSystemApps && isSystemPackage(pi);
 			if(!b) {
 				packageList.add(pi);
 			}
@@ -72,7 +73,7 @@ public class ListOfAppsDialog extends TriggerDialog implements OnClickListener{
 	public void onClick(View v) {
 		RelativeLayout rL = (RelativeLayout)v;
 		TextView tV = (TextView) rL.findViewById(R.id.appName);
-		Config.triggerVal1 = tV.getText();
+		Config.addTriggerInput((String)tV.getTag());
 		((TriggerActivity)context).goToActionActivity();
 		onBackPressed();
 	}
