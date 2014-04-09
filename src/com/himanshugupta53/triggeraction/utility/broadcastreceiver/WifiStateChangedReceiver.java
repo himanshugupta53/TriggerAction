@@ -1,7 +1,5 @@
 package com.himanshugupta53.triggeraction.utility.broadcastreceiver;
 
-import java.util.List;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,16 +20,10 @@ public class WifiStateChangedReceiver extends BroadcastReceiver {
 		int extraWifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN);
     	switch(extraWifiState){
     		case WifiManager.WIFI_STATE_ENABLED:
-    			List<TriggerActionParser> triggerActions = TriggerActionParser.getSavedActionsForTrigger(TriggerModelGroup.WIFI_SWITCHED_ON, null);
-    			for (TriggerActionParser triggerAction : triggerActions){
-    				triggerAction.action.performAction();
-    			}
+    			TriggerActionParser.performTriggerAction(TriggerModelGroup.WIFI_SWITCHED_ON, null, context);
     			break;
     		case WifiManager.WIFI_STATE_DISABLED:
-    			triggerActions = TriggerActionParser.getSavedActionsForTrigger(TriggerModelGroup.WIFI_SWITCHED_OFF, null);
-    			for (TriggerActionParser triggerAction : triggerActions){
-    				triggerAction.action.performAction();
-    			}
+    			TriggerActionParser.performTriggerAction(TriggerModelGroup.WIFI_SWITCHED_OFF, null, context);
     			break;
     	}
 	}

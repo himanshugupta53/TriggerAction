@@ -13,10 +13,10 @@ public class BluetoothStateChanged extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		boolean isBluetoothEnabled = intent.getBooleanExtra("bluetoothState", false);
 		if (isBluetoothEnabled){
-			TriggerActionParser.performTriggerAction(TriggerModelGroup.BLUETOOTH_SWITCHED_ON, null);
+			TriggerActionParser.performTriggerAction(TriggerModelGroup.BLUETOOTH_SWITCHED_ON, null, context);
 		}
 		else{
-			TriggerActionParser.performTriggerAction(TriggerModelGroup.BLUETOOTH_SWITCHED_OFF, null);
+			TriggerActionParser.performTriggerAction(TriggerModelGroup.BLUETOOTH_SWITCHED_OFF, null, context);
 		}
 	}
 

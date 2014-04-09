@@ -15,12 +15,11 @@ public class GPSStateChanged extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		final LocationManager manager = (LocationManager) context.getSystemService( Context.LOCATION_SERVICE );
 		if (manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-			TriggerActionParser.performTriggerAction(TriggerModelGroup.GPS_SWITCHED_ON, null);
+			TriggerActionParser.performTriggerAction(TriggerModelGroup.GPS_SWITCHED_ON, null, context);
 		}
 		else{
-			TriggerActionParser.performTriggerAction(TriggerModelGroup.GPS_SWITCHED_OFF, null);
+			TriggerActionParser.performTriggerAction(TriggerModelGroup.GPS_SWITCHED_OFF, null, context);
 		}
-		Log.i("TriggerAction", "abcdefghi - GPS");
 	}
 
 }

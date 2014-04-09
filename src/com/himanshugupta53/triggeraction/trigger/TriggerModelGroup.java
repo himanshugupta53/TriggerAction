@@ -208,6 +208,8 @@ public enum TriggerModelGroup {
 		case APP_OPENED_SPECIFIC:
 		case BLUETOOTH_SWITCHED_ON:
 		case BLUETOOTH_SWITCHED_OFF:
+		case PHONE_LOCKED:
+		case PHONE_UNLOCKED:
 			Intent intent= new Intent(context, MyService.class);
 			intent.putExtra(this.toString(), true);
 			context.startService(intent);
@@ -221,8 +223,6 @@ public enum TriggerModelGroup {
 		case SMS_RECEIVED:
 		case PHONE_CALL_RECEIVED:
 		case PHONE_CALL_MADE:
-		case PHONE_LOCKED:
-		case PHONE_UNLOCKED:
 		case GPS_SWITCHED_ON:
 		case GPS_SWITCHED_OFF:
 		case BATTERY_LEVEL_LOW:

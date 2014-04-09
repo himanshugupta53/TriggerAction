@@ -5,6 +5,7 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 
 import com.himanshugupta53.triggeraction.R;
 import com.himanshugupta53.triggeraction.utility.WifiCustomManager;
@@ -148,12 +149,12 @@ public enum ActionModelGroup {
 		return groups;
 	}
 
-	public void performAction(){
+	public void performAction(Context context){
 		switch(this){
 		case WIFI_SWITCH_ON:
-			WifiCustomManager.getInstance().enableWifi();
+			WifiCustomManager.getInstance(context).enableWifi();
 		case WIFI_SWITCH_OFF:
-			WifiCustomManager.getInstance().disableWifi();
+			WifiCustomManager.getInstance(context).disableWifi();
 		case BLUETOOTH_SWITCH_ON:
 			BluetoothAdapter.getDefaultAdapter().enable();
 		    break;

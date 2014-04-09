@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.himanshugupta53.triggeraction.action.ActionModelGroup;
 import com.himanshugupta53.triggeraction.trigger.TriggerModelGroup;
@@ -97,10 +98,10 @@ public class TriggerActionParser {
 		return list;
 	}
 	
-	public static void performTriggerAction(TriggerModelGroup trigger, List<String> triggerInputs){
+	public static void performTriggerAction(TriggerModelGroup trigger, List<String> triggerInputs, Context context){
 		List<TriggerActionParser> triggerActions = getSavedActionsForTrigger(trigger, triggerInputs);
 		for (TriggerActionParser triggerAction : triggerActions){
-			triggerAction.action.performAction();
+			triggerAction.action.performAction(context);
 		}
 	}
 

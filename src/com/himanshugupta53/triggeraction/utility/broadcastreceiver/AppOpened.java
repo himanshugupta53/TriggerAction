@@ -19,10 +19,10 @@ public class AppOpened extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		String appPackageName = intent.getStringExtra("newlyOpenedApp");
-		TriggerActionParser.performTriggerAction(TriggerModelGroup.APP_OPENED_ANY, null);
+		TriggerActionParser.performTriggerAction(TriggerModelGroup.APP_OPENED_ANY, null, context);
 		List<String> appList = new ArrayList<String>();
 		appList.add(appPackageName);
-		TriggerActionParser.performTriggerAction(TriggerModelGroup.APP_OPENED_SPECIFIC, appList);
+		TriggerActionParser.performTriggerAction(TriggerModelGroup.APP_OPENED_SPECIFIC, appList, context);
 	}
 	
 	public static void registerBroadcastReceiver(Context context){

@@ -7,18 +7,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-public class ScreenLock extends BroadcastReceiver {
+public class PowerConnectionChanged extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		boolean isPhoneLocked = intent.getBooleanExtra("phoneLockStatus", false);
-		if (isPhoneLocked){
-			TriggerActionParser.performTriggerAction(TriggerModelGroup.PHONE_LOCKED, null, context);
+		if (intent.getAction() == Intent.ACTION_POWER_CONNECTED){
+			TriggerActionParser.performTriggerAction(TriggerModelGroup.POWER_CONNECTED, null, context);
 		}
-		else{
-			TriggerActionParser.performTriggerAction(TriggerModelGroup.PHONE_UNLOCKED, null, context);
+		else if (intent.getAction() == Intent.ACTION_POWER_DISCONNECTED){
+			TriggerActionParser.performTriggerAction(TriggerModelGroup.POWER_DISCONNECTED, null, context);
 		}
-		
 	}
 
 }
