@@ -1,0 +1,87 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+         <TextView
+            android:id="@+id/timeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Starting time is:"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" />
+        
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/timeText" />
+
+        <TextView
+            android:id="@+id/repeatEvery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\nRepeat every"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/timePicker" />
+        
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/repeatEvery"
+            android:entries="@array/alarm_time_repeat" />
+        
+        <TextView
+            android:id="@+id/countText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\nFor how many times - leave the following field blank or put 0 if you want it to repeat forever"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/spinner" />
+
+        <EditText
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/countText" >
+
+            <requestFocus />
+        </EditText>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/timeSetButons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/timeSetCancelButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="buttonClicked"
+            android:text="Cancel" >
+        </Button>
+
+        <Button
+            android:id="@+id/timeSetOKButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="buttonClicked"
+            android:text="OK" >
+        </Button>
+    </LinearLayout>
+
+</RelativeLayout>

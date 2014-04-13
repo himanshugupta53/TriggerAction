@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.himanshugupta53.triggeraction.R;
 
 public class CustomArrayAdapter extends ArrayAdapter<String> {
+	
 	protected Context context;
 	protected String[] titleValues, descriptionValues;
 	protected int layout = R.layout.rowlayout;
@@ -25,7 +26,8 @@ public class CustomArrayAdapter extends ArrayAdapter<String> {
 	public CustomArrayAdapter(Context context, List<String> titleValues, List<String> descriptionValues) {
 		super(context, R.layout.rowlayout, titleValues);
 		this.context = context;
-		this.titleValues = titleValues.toArray(new String[titleValues.size()]);
+		if (titleValues != null)
+			this.titleValues = titleValues.toArray(new String[titleValues.size()]);
 		if (descriptionValues != null)
 			this.descriptionValues = descriptionValues.toArray(new String[descriptionValues.size()]);
 	}
@@ -34,11 +36,19 @@ public class CustomArrayAdapter extends ArrayAdapter<String> {
 		super(context, _layout, titleValues);
 		this.layout = _layout;
 		this.context = context;
-		this.titleValues = titleValues.toArray(new String[titleValues.size()]);
+		if (titleValues != null)
+			this.titleValues = titleValues.toArray(new String[titleValues.size()]);
 		if (descriptionValues != null)
 			this.descriptionValues = descriptionValues.toArray(new String[descriptionValues.size()]);
 	}
 
+	@Override
+	public int getCount() {
+		if (titleValues != null)
+			return titleValues.length;
+		return 0;
+	}
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;

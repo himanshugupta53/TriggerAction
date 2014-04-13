@@ -2,36 +2,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TimePicker
-        android:id="@+id/timePicker1"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp" />
+        android:layout_centerHorizontal="true" >
+
+        <LinearLayout
+            android:id="@+id/datePickerLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" >
+
+            <NumberPicker
+                android:id="@+id/datePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <NumberPicker
+                android:id="@+id/monthPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <NumberPicker
+                android:id="@+id/yearPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/timePickerLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/datePickerLayout"
+            android:layout_centerHorizontal="true" >
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+       
+    </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/wifiScanResultButtons"
+        android:id="@+id/timeSetButons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/wifiScanResultCancelButton"
+            android:id="@+id/timeSetCancelButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="buttonClicked"
             android:text="Cancel" >
+
         </Button>
 
         <Button
-            android:id="@+id/wifiScanResultOKButton"
+            android:id="@+id/timeSetOKButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="buttonClicked"
             android:text="OK" >
         </Button>
     </LinearLayout>
-
+    
 </RelativeLayout>

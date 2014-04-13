@@ -70,6 +70,8 @@ public class ActionActivity extends CustomListActivity {
 		triggerAction.triggerInputs = Config.getTriggerInputs();
 		triggerAction.actionInputs = Config.getActionInputs();
 		triggerAction.performActionOnTrigger(this);
+		Config.triggerActionSet = true;
+		onBackPressed();
 	}
 
 }

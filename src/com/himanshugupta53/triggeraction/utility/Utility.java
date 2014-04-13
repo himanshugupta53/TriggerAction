@@ -29,5 +29,23 @@ public class Utility {
 		}
 		return true;
 	}
+
+	public static boolean isLeapYear(int year){
+		if (year % 400 == 0)
+			return true;
+		if (year % 100 == 0)
+			return false;
+		if (year % 4 == 0)
+			return true;
+		return false;
+	}
+	
+	public static int noOfDaysInMonth(int month, int year){
+		int num = 31 - (month - 1) % 7 % 2;
+		if (month == 2){
+			num = isLeapYear(year) ? 29 : 28;
+		}
+		return num;
+	}
 	
 }

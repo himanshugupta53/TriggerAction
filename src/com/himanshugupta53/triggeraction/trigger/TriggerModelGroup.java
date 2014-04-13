@@ -11,6 +11,7 @@ import android.content.Intent;
 
 import com.himanshugupta53.triggeraction.R;
 import com.himanshugupta53.triggeraction.utility.MyService;
+import com.himanshugupta53.triggeraction.utility.TriggerActionParser;
 import com.himanshugupta53.triggeraction.utility.broadcastreceiver.AppOpened;
 import com.himanshugupta53.triggeraction.utility.broadcastreceiver.WifiConnected;
 import com.himanshugupta53.triggeraction.utility.broadcastreceiver.WifiStateChangedReceiver;
@@ -38,6 +39,7 @@ public enum TriggerModelGroup {
 	GPS_SWITCHED_ON("GPS", 0),
 	GPS_SWITCHED_OFF("GPS", 0),
 	TIME_AT("TIME", 1),
+	TIME_AT_REPEAT("TIME", 3),
 	TIME_FROM_TO("TIME", 2);
 
 	private String groupName = null, title = null, description = null, fulldescription = null;
@@ -176,6 +178,8 @@ public enum TriggerModelGroup {
 			return new ListOfAppsDialog(context);
 		case TIME_AT:
 			return new TimeAtDialog(context);
+		case TIME_AT_REPEAT:
+			return new TimeAtRepeatDialog(context);
 		case TIME_FROM_TO:
 			return new TimeAtDialog(context);
 		case WIFI_SWITCHED_ON:
@@ -202,7 +206,7 @@ public enum TriggerModelGroup {
 		}
 	}
 
-	public void checkAndPerformTaskInBackgroundService(Context context){
+	public void checkAndPerformTaskInBackgroundService(Context context, TriggerActionParser tAP){
 		switch(this){
 		case APP_OPENED_ANY:
 		case APP_OPENED_SPECIFIC:
@@ -210,8 +214,17 @@ public enum TriggerModelGroup {
 		case BLUETOOTH_SWITCHED_OFF:
 		case PHONE_LOCKED:
 		case PHONE_UNLOCKED:
+		case TIME_AT:
+		case TIME_AT_REPEAT:
 			Intent intent= new Intent(context, MyService.class);
 			intent.putExtra(this.toString(), true);
+			String input = null;
+			if (tAP.triggerInputs != null){
+				for (String str : tAP.triggerInputs){
+					input = input + "|" + str;
+				}
+			}
+			intent.putExtra("input", input);
 			context.startService(intent);
 			break;
 		case WIFI_CONNECTED_TO_SPECIFIC_NETWORK:
@@ -229,7 +242,6 @@ public enum TriggerModelGroup {
 		case BATTERY_LEVEL_OKAY:
 		case POWER_CONNECTED:
 		case POWER_DISCONNECTED:
-		case TIME_AT:
 		case TIME_FROM_TO:
 		default:
 		}
@@ -265,6 +277,7 @@ public enum TriggerModelGroup {
 		case POWER_CONNECTED:
 		case POWER_DISCONNECTED:
 		case TIME_AT:
+		case TIME_AT_REPEAT:
 		case TIME_FROM_TO:
 		default:
 		}

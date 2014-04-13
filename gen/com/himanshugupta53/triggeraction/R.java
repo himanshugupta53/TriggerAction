@@ -8,12 +8,18 @@
 package com.himanshugupta53.triggeraction;
 
 public final class R {
+    public static final class array {
+        public static final int alarm_time_repeat=0x7f070000;
+    }
     public static final class attr {
     }
     public static final class color {
-        public static final int grey=0x7f040001;
-        public static final int red=0x7f040000;
-        public static final int reddishbrown=0x7f040002;
+        public static final int black=0x7f040000;
+        public static final int grey=0x7f040004;
+        public static final int numberpicker=0x7f040002;
+        public static final int red=0x7f040003;
+        public static final int reddishbrown=0x7f040005;
+        public static final int white=0x7f040001;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -26,31 +32,51 @@ public final class R {
         public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
-        public static final int ic_add_triggeraction=0x7f020000;
-        public static final int ic_back=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
+        public static final int border=0x7f020000;
+        public static final int ic_add_triggeraction=0x7f020001;
+        public static final int ic_back=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
     }
     public static final class id {
-        public static final int action_addtriggeraction=0x7f090012;
-        public static final int action_back=0x7f090013;
-        public static final int action_settings=0x7f090011;
-        public static final int appIcon=0x7f090000;
-        public static final int appName=0x7f090001;
-        public static final int dialogButtonOK=0x7f090004;
-        public static final int dialogList=0x7f090005;
-        public static final int firstLine=0x7f090009;
-        public static final int icon=0x7f090008;
-        public static final int image=0x7f090002;
-        public static final int secondLine=0x7f09000a;
-        public static final int selectedWifiSSID=0x7f09000f;
-        public static final int text=0x7f090003;
-        public static final int textView=0x7f090006;
-        public static final int textView1=0x7f090007;
-        public static final int timePicker1=0x7f09000b;
-        public static final int wifiScanResultButtons=0x7f09000c;
-        public static final int wifiScanResultCancelButton=0x7f09000d;
-        public static final int wifiScanResultList=0x7f090010;
-        public static final int wifiScanResultOKButton=0x7f09000e;
+        public static final int actionImage=0x7f0a000c;
+        public static final int action_addtriggeraction=0x7f0a0025;
+        public static final int action_back=0x7f0a0026;
+        public static final int action_settings=0x7f0a0024;
+        public static final int appIcon=0x7f0a0000;
+        public static final int appName=0x7f0a0001;
+        public static final int count=0x7f0a001e;
+        public static final int countText=0x7f0a001d;
+        public static final int datePicker=0x7f0a0012;
+        public static final int datePickerLayout=0x7f0a0011;
+        public static final int dialogButtonOK=0x7f0a0004;
+        public static final int dialogList=0x7f0a0005;
+        public static final int firstLine=0x7f0a000f;
+        public static final int icon=0x7f0a000e;
+        public static final int image=0x7f0a0002;
+        public static final int monthPicker=0x7f0a0013;
+        public static final int relativeLayout2=0x7f0a0009;
+        public static final int repeatEvery=0x7f0a001b;
+        public static final int secondLine=0x7f0a0010;
+        public static final int selectedWifiSSID=0x7f0a001f;
+        public static final int spinner=0x7f0a001c;
+        public static final int text=0x7f0a0003;
+        public static final int textView=0x7f0a0006;
+        public static final int textView1=0x7f0a0007;
+        public static final int timePicker=0x7f0a0016;
+        public static final int timePickerLayout=0x7f0a0015;
+        public static final int timeSetButons=0x7f0a0017;
+        public static final int timeSetCancelButton=0x7f0a0018;
+        public static final int timeSetOKButton=0x7f0a0019;
+        public static final int timeText=0x7f0a001a;
+        public static final int transitionImage=0x7f0a000b;
+        public static final int triggerActionDescription=0x7f0a000d;
+        public static final int triggerActionTitle=0x7f0a0008;
+        public static final int triggerImage=0x7f0a000a;
+        public static final int wifiScanResultButtons=0x7f0a0020;
+        public static final int wifiScanResultCancelButton=0x7f0a0021;
+        public static final int wifiScanResultList=0x7f0a0023;
+        public static final int wifiScanResultOKButton=0x7f0a0022;
+        public static final int yearPicker=0x7f0a0014;
     }
     public static final class layout {
         public static final int activity_action=0x7f030000;
@@ -63,17 +89,19 @@ public final class R {
         public static final int dialog_list=0x7f030007;
         public static final int dialog_list_row=0x7f030008;
         public static final int listrow_details=0x7f030009;
-        public static final int rowlayout=0x7f03000a;
-        public static final int time_at_dialog=0x7f03000b;
-        public static final int wifi_scan_result_dialog=0x7f03000c;
+        public static final int main_activity_row_layout=0x7f03000a;
+        public static final int rowlayout=0x7f03000b;
+        public static final int time_at_dialog=0x7f03000c;
+        public static final int time_at_repeat_dialog=0x7f03000d;
+        public static final int wifi_scan_result_dialog=0x7f03000e;
     }
     public static final class menu {
-        public static final int action=0x7f080000;
-        public static final int custom_expandable_list=0x7f080001;
-        public static final int custom_list=0x7f080002;
-        public static final int main=0x7f080003;
-        public static final int popup=0x7f080004;
-        public static final int trigger=0x7f080005;
+        public static final int action=0x7f090000;
+        public static final int custom_expandable_list=0x7f090001;
+        public static final int custom_list=0x7f090002;
+        public static final int main=0x7f090003;
+        public static final int popup=0x7f090004;
+        public static final int trigger=0x7f090005;
     }
     public static final class string {
         public static final int action_add_triggeraction=0x7f060002;
@@ -82,26 +110,26 @@ public final class R {
         public static final int app_name=0x7f060000;
         public static final int app_opened_any_trigger_fulldescription=0x7f06002e;
         public static final int app_opened_specific_trigger_fulldescription=0x7f06002f;
-        public static final int app_specific_open_action_description=0x7f06003d;
-        public static final int app_specific_open_action_title=0x7f06003c;
+        public static final int app_specific_open_action_description=0x7f06003e;
+        public static final int app_specific_open_action_title=0x7f06003d;
         public static final int app_trigger_description=0x7f060018;
         public static final int app_trigger_title=0x7f060017;
         public static final int battery_level_low_trigger_fulldescription=0x7f060025;
         public static final int battery_level_okay_trigger_fulldescription=0x7f060026;
         public static final int battery_trigger_description=0x7f060010;
         public static final int battery_trigger_title=0x7f06000f;
-        public static final int bluetooth_switch_off_action_description=0x7f06003b;
-        public static final int bluetooth_switch_off_action_title=0x7f06003a;
-        public static final int bluetooth_switch_on_action_description=0x7f060039;
-        public static final int bluetooth_switch_on_action_title=0x7f060038;
+        public static final int bluetooth_switch_off_action_description=0x7f06003c;
+        public static final int bluetooth_switch_off_action_title=0x7f06003b;
+        public static final int bluetooth_switch_on_action_description=0x7f06003a;
+        public static final int bluetooth_switch_on_action_title=0x7f060039;
         public static final int bluetooth_switched_off_trigger_fulldescription=0x7f060024;
         public static final int bluetooth_switched_on_trigger_fulldescription=0x7f060023;
         public static final int bluetooth_trigger_description=0x7f06000e;
         public static final int bluetooth_trigger_title=0x7f06000d;
-        public static final int gps_switch_off_action_description=0x7f060041;
-        public static final int gps_switch_off_action_title=0x7f060040;
-        public static final int gps_switch_on_action_description=0x7f06003f;
-        public static final int gps_switch_on_action_title=0x7f06003e;
+        public static final int gps_switch_off_action_description=0x7f060042;
+        public static final int gps_switch_off_action_title=0x7f060041;
+        public static final int gps_switch_on_action_description=0x7f060040;
+        public static final int gps_switch_on_action_title=0x7f06003f;
         public static final int gps_switched_off_trigger_fulldescription=0x7f060031;
         public static final int gps_switched_on_trigger_fulldescription=0x7f060030;
         public static final int gps_trigger_description=0x7f06001a;
@@ -120,8 +148,9 @@ public final class R {
         public static final int sms_received_trigger_fulldescription=0x7f060029;
         public static final int sms_trigger_description=0x7f060012;
         public static final int sms_trigger_title=0x7f060011;
+        public static final int time_at_repeat_trigger_fulldescription=0x7f060033;
         public static final int time_at_trigger_fulldescription=0x7f060032;
-        public static final int time_from_to_trigger_fulldescription=0x7f060033;
+        public static final int time_from_to_trigger_fulldescription=0x7f060034;
         public static final int time_trigger_description=0x7f06001c;
         public static final int time_trigger_title=0x7f06001b;
         public static final int title_activity_action=0x7f06000a;
@@ -134,10 +163,10 @@ public final class R {
         public static final int wifi_connected_to_specific_network_trigger_fulldescription=0x7f060021;
         public static final int wifi_disconnected_from_any_network_trigger_fulldescription=0x7f060020;
         public static final int wifi_disconnected_from_specific_network_trigger_fulldescription=0x7f060022;
-        public static final int wifi_switch_off_action_description=0x7f060037;
-        public static final int wifi_switch_off_action_title=0x7f060036;
-        public static final int wifi_switch_on_action_description=0x7f060035;
-        public static final int wifi_switch_on_action_title=0x7f060034;
+        public static final int wifi_switch_off_action_description=0x7f060038;
+        public static final int wifi_switch_off_action_title=0x7f060037;
+        public static final int wifi_switch_on_action_description=0x7f060036;
+        public static final int wifi_switch_on_action_title=0x7f060035;
         public static final int wifi_switched_off_trigger_fulldescription=0x7f06001e;
         public static final int wifi_switched_on_trigger_fulldescription=0x7f06001d;
         public static final int wifi_trigger_description=0x7f06000c;
@@ -165,10 +194,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f070000;
+        public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f070001;
+        public static final int AppTheme=0x7f080001;
     }
 }

@@ -1,24 +1,30 @@
 package com.himanshugupta53.triggeraction.main;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.himanshugupta53.triggeraction.R;
 import com.himanshugupta53.triggeraction.trigger.TriggerActivity;
+import com.himanshugupta53.triggeraction.utility.Config;
+import com.himanshugupta53.triggeraction.utility.MainArrayAdapter;
+import com.himanshugupta53.triggeraction.utility.MainListActivity;
 import com.himanshugupta53.triggeraction.utility.MyService;
 import com.himanshugupta53.triggeraction.utility.MyUserPreferences;
+import com.himanshugupta53.triggeraction.utility.TriggerActionParser;
 
-public class MainActivity extends Activity {
+public class MainActivity extends MainListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
 		MyUserPreferences.setContext(this);
+		super.setLayout(R.layout.main_activity_row_layout);
+		super.setTAPValues(TriggerActionParser.getAllDefinedTriggerActions());
+		super.onCreate(savedInstanceState);
 		Intent intent= new Intent(this, MyService.class);
 		startService(intent);
 	}
@@ -44,5 +50,20 @@ public class MainActivity extends Activity {
 
 		return true;
 	} 
-	
+
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		Toast.makeText(this, "Item no "+position+" clicked on", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (Config.triggerActionSet){
+			Config.triggerActionSet = false;
+			super.setTAPValues(TriggerActionParser.getAllDefinedTriggerActions());
+			((MainArrayAdapter)getListAdapter()).notifyDataSetChanged(); 
+		}
+	}
+
 }

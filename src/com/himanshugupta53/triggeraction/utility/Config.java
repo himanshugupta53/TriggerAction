@@ -10,6 +10,7 @@ public class Config {
 	public static TriggerModelGroup trigger;
 	public static ActionModelGroup action;
 	private static List<String> triggerInputs, actionInputs;
+	public static boolean triggerActionSet;
 	
 	public static void addTriggerInput(String str){
 		if (triggerInputs == null)

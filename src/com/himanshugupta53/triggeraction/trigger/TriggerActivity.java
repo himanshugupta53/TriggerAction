@@ -44,6 +44,7 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
 		super.setTitleValues(titleStrings);
 		super.setDescriptionValues(descriptionStrings);
 		super.onCreate(savedInstanceState);
+		Config.triggerActionSet = false;
 	}
 
 	@Override
@@ -135,5 +136,13 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
 		Message msg = Message.obtain();
 		msg.obj = list;
 		handler.dispatchMessage(msg);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (Config.triggerActionSet){
+			onBackPressed();
+		}
 	}
 }

@@ -1,9 +1,9 @@
 package com.himanshugupta53.triggeraction.utility;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -12,10 +12,13 @@ public class MyUserPreferences{
 
 	private static SharedPreferences userPreferences;
 	private static Context context;
+	private static HashMap<String, Set<String>> triggerActionHashMap = null;
+	public static String triggerKey = "triggers";
 
 	private static void instantiate(){
 		if (MyUserPreferences.userPreferences == null){
 			MyUserPreferences.userPreferences = context.getSharedPreferences("TriggerAction", 0);
+			triggerActionHashMap = new HashMap<String, Set<String>>();
 		}
 	}
 
@@ -55,6 +58,7 @@ public class MyUserPreferences{
 	public static void setStringSet(String key, Set<String> value){
 		String stringValue = "";
 		if (value != null){
+			triggerActionHashMap.put(key, value);
 			for (String str : value){
 				stringValue = stringValue + str + "|";
 			}
@@ -63,13 +67,19 @@ public class MyUserPreferences{
 	}
 
 	public static Set<String> getStringSet(String key, Set<String> _default){
-		Set<String> set = new HashSet<String>();
+		Set<String> set = triggerActionHashMap.get(key);
+		if (set != null)
+			return set;
+		set = new HashSet<String>();
 		String value = getString(key, null);
 		if (value == null)
 			return _default;
 		String[] strArray = value.split("\\|");
 		for (String str : strArray){
 			set.add(str);
+		}
+		if (set != null){
+			triggerActionHashMap.put(key, set);
 		}
 		return set;
 	}

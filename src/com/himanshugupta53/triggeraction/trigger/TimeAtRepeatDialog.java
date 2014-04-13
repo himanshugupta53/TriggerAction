@@ -7,26 +7,30 @@ import java.util.Calendar;
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
-import android.widget.NumberPicker;
-import android.widget.NumberPicker.OnValueChangeListener;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.TimePicker.OnTimeChangedListener;
 
 import com.himanshugupta53.triggeraction.R;
 import com.himanshugupta53.triggeraction.utility.Config;
-import com.himanshugupta53.triggeraction.utility.Utility;
 
-public class TimeAtDialog extends TriggerDialog implements OnValueChangeListener, OnClickListener{
+public class TimeAtRepeatDialog extends TriggerDialog implements OnTimeChangedListener, OnClickListener, OnItemSelectedListener {
 
-	NumberPicker monthPicker, datePicker, yearPicker;
 	TimePicker timePicker;
-	String[] months = null, years = null;
+	TextView startTimeTextView;
 	int currentYear = 0, currentDate = 0, currentMonth = 0, currentHour = 0, currentMinute = 0, currentAMPM = 0;
 	Button cancelButton, okButton;
-	
-	public TimeAtDialog(Context context) {
+	String spinnerSelectedValue;
+	EditText noOfTimesTextView;
+
+	public TimeAtRepeatDialog(Context context) {
 		super(context);
-		setLayout(R.layout.time_at_dialog);
+		setLayout(R.layout.time_at_repeat_dialog);
 	}
 
 	@Override
@@ -41,88 +45,92 @@ public class TimeAtDialog extends TriggerDialog implements OnValueChangeListener
 
 	@Override
 	public void setResult(Object o) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void setValuesToLayoutFields() {
 		setTitleString("Set Trigger Time");
-		
-		months = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+		startTimeTextView = (TextView) findViewById(R.id.timeText);
+
 		Calendar c = Calendar.getInstance(); 
 		currentYear = c.get(Calendar.YEAR);
-		currentMonth = c.get(Calendar.MONTH);
+		currentMonth = c.get(Calendar.MONTH) + 1;
 		currentDate = c.get(Calendar.DATE);
 		currentHour = c.get(Calendar.HOUR);
 		currentMinute = c.get(Calendar.MINUTE);
 		currentAMPM = c.get(Calendar.AM_PM);
-		years = new String[]{""+currentYear, ""+(currentYear+1), ""+(currentYear+2), ""+(currentYear+3), ""+(currentYear+4)};
-		
-		yearPicker = (NumberPicker) findViewById(R.id.yearPicker);
-		yearPicker.setMinValue(1);
-		yearPicker.setMaxValue(5);
-		yearPicker.setDisplayedValues(years);
-		yearPicker.setOnValueChangedListener(this);
-		yearPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-		
-		monthPicker = (NumberPicker) findViewById(R.id.monthPicker);
-		monthPicker.setMinValue(1);
-		monthPicker.setMaxValue(12);
-		monthPicker.setDisplayedValues(months);
-		monthPicker.setOnValueChangedListener(this);
-		monthPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-		
-		datePicker = (NumberPicker) findViewById(R.id.datePicker);
-		datePicker.setMinValue(1);
-		datePicker.setMaxValue(31);
-		datePicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-		
-		yearPicker.setValue(1);
-		monthPicker.setValue(currentMonth+1);
-		datePicker.setValue(currentDate);
-		
+
 		timePicker = (TimePicker) findViewById(R.id.timePicker);
 		if (currentAMPM == 1)
 			currentHour += 12;
 		timePicker.setCurrentHour(currentHour);
 		timePicker.setCurrentMinute(currentMinute);
+//		timePicker.setOnTimeChangedListener(this);
 		
 		cancelButton = (Button) findViewById(R.id.timeSetCancelButton);
 		cancelButton.setOnClickListener(this);
 		okButton = (Button) findViewById(R.id.timeSetOKButton);
 		okButton.setOnClickListener(this);
+		
+		Spinner spinner = (Spinner) findViewById(R.id.spinner);
+		spinner.setOnItemSelectedListener(this);
+		
+		noOfTimesTextView = (EditText) findViewById(R.id.count);
 	}
 
 	@Override
-	public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-		datePicker.setMaxValue(Utility.noOfDaysInMonth(monthPicker.getValue(), yearPicker.getValue() + currentYear - 1));
+	public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+		boolean am = true;
+		if (hourOfDay > 12){
+			hourOfDay -= 12;
+			am = false;
+		}
+		startTimeTextView.setText("Starting time is "+(hourOfDay < 10 ? "0"+hourOfDay : ""+hourOfDay)+":"+(minute < 10 ? "0"+minute : ""+minute)+" "+(am ? "am" : "pm"));
 	}
-
+	
 	@Override
 	public void onClick(View v) {
 		if (v == cancelButton){
 			onBackPressed();
 		}
 		else{
-			int monthVal = monthPicker.getValue();
-			String month = monthVal < 10 ? "0"+monthVal : ""+monthVal;
-			int dateVal = datePicker.getValue();
-			String date = dateVal < 10 ? "0"+dateVal : "" + dateVal;
-			String year = ""+(yearPicker.getValue() + currentYear - 1);
+			String month = currentMonth < 10 ? "0"+currentMonth : ""+currentMonth;
+			String date = currentDate < 10 ? "0"+currentDate : "" + currentDate;
+			String year = ""+currentYear;
 			int hourVal = timePicker.getCurrentHour();
 			String hour = hourVal < 10 ? "0" + hourVal : "" + hourVal;
 			int minuteVal = timePicker.getCurrentMinute();
 			String minute = minuteVal < 10 ? "0" + minuteVal : "" + minuteVal;
+			long currentTime = System.currentTimeMillis();
 			long epochTime = 0;
 			try {
 				epochTime = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(month+"/"+date+"/"+year+" "+hour+":"+minute+":00").getTime();
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
+			if (epochTime < currentTime){
+				epochTime += 86400000;//1 day
+			}
 			Config.addTriggerInput(epochTime + "");
+			Config.addTriggerInput(spinnerSelectedValue);
+			Config.addTriggerInput(noOfTimesTextView.getText().toString());
 			((TriggerActivity)context).goToActionActivity();
 			onBackPressed();
 		}
 		
 	}
-	
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View arg1, int pos, long arg3) {
+		spinnerSelectedValue = parent.getItemAtPosition(pos).toString().toLowerCase();
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		spinnerSelectedValue = "onetime";
+	}
+
 }

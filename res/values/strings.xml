@@ -55,6 +55,7 @@
     <string name="gps_switched_on_trigger_fulldescription">Create a trigger point when you switch on your gps</string>
     <string name="gps_switched_off_trigger_fulldescription">Create a trigger point when you switch off your gps</string>
     <string name="time_at_trigger_fulldescription">Create a reminder for a specified time</string>
+    <string name="time_at_repeat_trigger_fulldescription">Create a repeated reminder</string>
     <string name="time_from_to_trigger_fulldescription">Do an action for a specified period of time</string>
     
     <string name="wifi_switch_on_action_title">Wifi</string>
@@ -71,5 +72,13 @@
     <string name="gps_switch_on_action_description">Switch on your GPS</string>
     <string name="gps_switch_off_action_title">GPS</string>
     <string name="gps_switch_off_action_description">Switch off your GPS</string>
+    
+    <string-array name="alarm_time_repeat">
+        <item>OneTime</item>
+        <item>Hourly</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+    </string-array>
+    
     
 </resources>
