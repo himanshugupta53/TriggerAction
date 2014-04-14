@@ -1,6 +1,8 @@
 package com.himanshugupta53.triggeraction.utility;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -14,16 +16,27 @@ import com.himanshugupta53.triggeraction.trigger.TriggerModelGroup;
 
 public class TriggerActionParser {
 
-	private String id;
 	private String name;
 	public TriggerModelGroup trigger;
 	public ActionModelGroup action;
 	public List<String> triggerInputs;
 	public List<String> actionInputs;
-
-	public String getId(){
-		return trigger.toString() + "#" + System.currentTimeMillis() + "#" + action.toString();
-	}
+	
+	@Override
+	public boolean equals(Object o) {
+		TriggerActionParser t = (TriggerActionParser) o;
+		if (t.trigger != this.trigger)
+			return false;
+		if (t.action != this.action)
+			return false;
+		if (!Utility.areListsEqual(triggerInputs, t.triggerInputs)){
+			return false;
+		}
+		if (!Utility.areListsEqual(actionInputs, t.actionInputs)){
+			return false;
+		}
+		return true;
+	};
 	
 	public String getName(){
 		return name;
@@ -44,8 +57,6 @@ public class TriggerActionParser {
 				strValue = strValue + "#" + obj.toString();
 			}
 		}
-		strValue = strValue + "@ID:";
-		strValue = strValue + getId();
 		strValue = strValue + "@NAME:";
 		if (name == null){
 			name = "Untitled";
@@ -61,8 +72,7 @@ public class TriggerActionParser {
 		String[] strArray = strValue.split("@");
 		String triggerStr = strArray[1].split(":")[1];
 		String actionStr = strArray[2].split(":")[1];
-		String _id = strArray[3].split(":")[1];
-		String _name = strArray[4].split(":")[1];
+		String _name = strArray[3].split(":")[1];
 		strArray = triggerStr.split("#");
 		int iterator = 0;
 		for (String str : strArray){
@@ -87,7 +97,6 @@ public class TriggerActionParser {
 			}
 			iterator++;
 		}
-		triggerAction.id = _id;
 		triggerAction.name = _name;
 		return triggerAction;
 	}
@@ -100,7 +109,7 @@ public class TriggerActionParser {
 			for (Iterator<String> iterator = triggerActions.iterator(); iterator.hasNext();) {
 			    String str = iterator.next();
 			    TriggerActionParser t = deserialize(str);
-			    if (t.id.equals(this.id)){
+			    if (this.equals(t)){
 			    	iterator.remove();
 			    }
 			}
@@ -128,6 +137,20 @@ public class TriggerActionParser {
 		MyUserPreferences.setStringSet(MyUserPreferences.triggerKey, triggers);
 	}
 
+	public void editInUserPreferences(List<String> _triggerInputs, List<String> _actionInputs, String _name){
+		deleteFromUserPreferences();
+		if (_triggerInputs != null){
+			triggerInputs = _triggerInputs;
+		}
+		if (_actionInputs != null){
+			actionInputs = _actionInputs;
+		}
+		if (name != null){
+			name = _name;
+		}
+		saveInUserPreferences();
+	}
+	
 	public void performActionOnTrigger(Activity context){
 		saveInUserPreferences();
 		trigger.checkAndPerformTaskInBackgroundService(context, this);
@@ -162,7 +185,7 @@ public class TriggerActionParser {
 	public static void performTriggerAction(TriggerModelGroup trigger, List<String> triggerInputs, Context context){
 		List<TriggerActionParser> triggerActions = getSavedActionsForTrigger(trigger, triggerInputs);
 		for (TriggerActionParser triggerAction : triggerActions){
-			triggerAction.action.performAction(context);
+			triggerAction.action.performAction(context, triggerAction.actionInputs);
 		}
 	}
 	
@@ -185,6 +208,16 @@ public class TriggerActionParser {
 		for (TriggerActionParser tAP : finalSet){
 			tAPArray[i++] = tAP;
 		}
+		Arrays.sort(tAPArray, new Comparator(){
+
+			@Override
+			public int compare(final Object lhs, final Object rhs) {
+				final TriggerActionParser t1 = (TriggerActionParser) lhs;
+				final TriggerActionParser t2 = (TriggerActionParser) rhs;
+				return t1.name.compareTo(t2.name);
+			}
+			
+		});
 		return tAPArray;
 		
 	}

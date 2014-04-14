@@ -1,13 +1,19 @@
 package com.himanshugupta53.triggeraction.action;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 
 import com.himanshugupta53.triggeraction.R;
+import com.himanshugupta53.triggeraction.trigger.ListOfAppsDialog;
+import com.himanshugupta53.triggeraction.trigger.TriggerDialog;
 import com.himanshugupta53.triggeraction.utility.WifiCustomManager;
 
 public enum ActionModelGroup {
@@ -149,12 +155,14 @@ public enum ActionModelGroup {
 		return groups;
 	}
 
-	public void performAction(Context context){
+	public void performAction(Context context, List<String> inputList){
 		switch(this){
 		case WIFI_SWITCH_ON:
 			WifiCustomManager.getInstance(context).enableWifi();
+			break;
 		case WIFI_SWITCH_OFF:
 			WifiCustomManager.getInstance(context).disableWifi();
+			break;
 		case BLUETOOTH_SWITCH_ON:
 			BluetoothAdapter.getDefaultAdapter().enable();
 		    break;
@@ -162,10 +170,66 @@ public enum ActionModelGroup {
 			BluetoothAdapter.getDefaultAdapter().disable();    
 		    break;
 		case GPS_SWITCH_ON:
+			turnGPSOn(context);
+			break;
 		case GPS_SWITCH_OFF:
+			turnGPSOff(context);
+			break;
 		case APP_SPECIFIC_OPEN:
+			context.startActivity(context.getPackageManager().getLaunchIntentForPackage(inputList.get(0)));
+			break;
 		default:
 		}
 	}
+	
+	public TriggerDialog getDialogPopup(Activity context){
+		if (this.getNoOfInputs() == 0){
+			return null;
+		}
+		switch(this){
+		case APP_SPECIFIC_OPEN:
+			return new ListOfAppsDialog(context);
+		case WIFI_SWITCH_ON:
+		case WIFI_SWITCH_OFF:
+		case BLUETOOTH_SWITCH_ON:
+		case BLUETOOTH_SWITCH_OFF:
+		case GPS_SWITCH_ON:
+		case GPS_SWITCH_OFF:
+		default:
+			return null;
+
+		}
+	}
+	
+	public void turnGPSOn(Context ctx)
+	{
+	     Intent intent = new Intent("android.location.GPS_ENABLED_CHANGE");
+	     intent.putExtra("enabled", true);
+	     ctx.sendBroadcast(intent);
+
+	    String provider = Settings.Secure.getString(ctx.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+	    if(!provider.contains("gps")){ //if gps is disabled
+	        final Intent poke = new Intent();
+	        poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider"); 
+	        poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+	        poke.setData(Uri.parse("3")); 
+	        ctx.sendBroadcast(poke);
+
+
+	    }
+	}
+	// automatic turn off the gps
+	public void turnGPSOff(Context ctx)
+	{
+	    String provider = Settings.Secure.getString(ctx.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+	    if(provider.contains("gps")){ //if gps is enabled
+	        final Intent poke = new Intent();
+	        poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+	        poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+	        poke.setData(Uri.parse("3")); 
+	        ctx.sendBroadcast(poke);
+	    }
+	}
+	
 
 }

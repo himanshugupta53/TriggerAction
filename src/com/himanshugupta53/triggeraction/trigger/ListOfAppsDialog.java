@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
@@ -15,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.himanshugupta53.triggeraction.R;
+import com.himanshugupta53.triggeraction.action.ActionActivity;
 import com.himanshugupta53.triggeraction.utility.Config;
 
 public class ListOfAppsDialog extends TriggerDialog implements OnClickListener{
@@ -47,7 +47,12 @@ public class ListOfAppsDialog extends TriggerDialog implements OnClickListener{
 
 	@Override
 	public void finishActivity() {
-		((TriggerActivity)context).hideProgressDialog(null);
+		if (context instanceof TriggerActivity){
+			((TriggerActivity)context).hideProgressDialog(null);
+		}
+		else if(context instanceof ActionActivity){
+			((ActionActivity)context).hideProgressDialog(null);
+		} 
 	}
 
 	@Override
@@ -73,8 +78,14 @@ public class ListOfAppsDialog extends TriggerDialog implements OnClickListener{
 	public void onClick(View v) {
 		RelativeLayout rL = (RelativeLayout)v;
 		TextView tV = (TextView) rL.findViewById(R.id.appName);
-		Config.addTriggerInput((String)tV.getTag());
-		((TriggerActivity)context).goToActionActivity();
+		if (context instanceof TriggerActivity){
+			Config.addTriggerInput((String)tV.getTag());
+			((TriggerActivity)context).goToActionActivity();
+		}
+		else if(context instanceof ActionActivity){
+			Config.addActionInput((String)tV.getTag());
+			((ActionActivity) context).setTriggerAction();
+		} 
 		onBackPressed();
 	}
 

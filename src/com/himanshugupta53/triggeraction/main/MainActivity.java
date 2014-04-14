@@ -1,29 +1,44 @@
 package com.himanshugupta53.triggeraction.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.himanshugupta53.triggeraction.R;
 import com.himanshugupta53.triggeraction.trigger.TriggerActivity;
 import com.himanshugupta53.triggeraction.utility.Config;
+import com.himanshugupta53.triggeraction.utility.DialogList;
 import com.himanshugupta53.triggeraction.utility.MainArrayAdapter;
 import com.himanshugupta53.triggeraction.utility.MainListActivity;
 import com.himanshugupta53.triggeraction.utility.MyService;
 import com.himanshugupta53.triggeraction.utility.MyUserPreferences;
 import com.himanshugupta53.triggeraction.utility.TriggerActionParser;
 
-public class MainActivity extends MainListActivity {
+public class MainActivity extends MainListActivity implements OnClickListener{
 
+	TriggerActionParser[] triggerActionParsers = null;
+	DialogList dialog = null;
+	TriggerActionParser triggerActionSelected = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		MyUserPreferences.setContext(this);
 		super.setLayout(R.layout.main_activity_row_layout);
-		super.setTAPValues(TriggerActionParser.getAllDefinedTriggerActions());
+		triggerActionParsers = TriggerActionParser.getAllDefinedTriggerActions();
+		super.setTAPValues(triggerActionParsers);
 		super.onCreate(savedInstanceState);
 		Intent intent= new Intent(this, MyService.class);
 		startService(intent);
@@ -53,7 +68,17 @@ public class MainActivity extends MainListActivity {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		Toast.makeText(this, "Item no "+position+" clicked on", Toast.LENGTH_SHORT).show();
+		triggerActionSelected = triggerActionParsers[position];
+		dialog = new DialogList(this);
+		List<String> options = new ArrayList<String>();
+		List<String> tags = new ArrayList<String>();
+		options.add("Delete Trigger Action");
+		options.add("Change Name");
+		tags.add("delete");
+		tags.add("name");
+		dialog.setValues(options);
+		dialog.setData(tags);
+		dialog.show();
 	}
 
 	@Override
@@ -61,9 +86,47 @@ public class MainActivity extends MainListActivity {
 		super.onResume();
 		if (Config.triggerActionSet){
 			Config.triggerActionSet = false;
-			super.setTAPValues(TriggerActionParser.getAllDefinedTriggerActions());
-			((MainArrayAdapter)getListAdapter()).notifyDataSetChanged(); 
+			refreshTriggerActionList();
 		}
+	}
+	
+	private void refreshTriggerActionList(){
+		triggerActionParsers = TriggerActionParser.getAllDefinedTriggerActions(); 
+		super.setTAPValues(triggerActionParsers);
+		((MainArrayAdapter)getListAdapter()).notifyDataSetChanged();
+	}
+
+	@Override
+	public void onClick(View v) {
+		TextView textView = (TextView) v.findViewById(R.id.textView);
+		if (textView.getTag().equals("delete")){
+			triggerActionSelected.deleteFromUserPreferences();
+			refreshTriggerActionList();
+		}
+		else if (textView.getTag().equals("name")){
+			final EditText input = new EditText(this);
+			new AlertDialog.Builder(this)
+		    .setTitle("Edit Name")
+		    .setMessage("Enter a name for the selected trigger action")
+		    .setView(input)
+		    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+		            String newName = input.getText().toString();
+		            if (newName == null || newName.equals(""))
+		            	return;
+		            if (newName.length() > 10)
+		            	newName = newName.substring(0, 10);
+		            triggerActionSelected.editInUserPreferences(null, null, newName);
+		            refreshTriggerActionList();
+		        }
+		    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+		            // Do nothing.
+		        }
+		    }).show();
+		}
+		dialog.dismiss();
+		
 	}
 
 }
