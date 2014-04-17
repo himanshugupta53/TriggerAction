@@ -36,7 +36,12 @@ public class ActionActivity extends CustomListActivity {
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		actionModelGroupValues = ActionModelGroup.values();
+		Bundle extras = getIntent().getExtras();
+		TriggerModelGroup trigger = null;
+		if (extras != null){
+			trigger = (TriggerModelGroup) extras.get("trigger");
+		}
+		actionModelGroupValues = ActionModelGroup.getValuesForTrigger(trigger);
 		List<String> titleStrings = new ArrayList<String>();
 		List<String> descriptionStrings = new ArrayList<String>();
 		for (ActionModelGroup aMG : actionModelGroupValues){

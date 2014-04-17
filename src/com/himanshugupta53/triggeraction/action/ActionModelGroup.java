@@ -13,12 +13,18 @@ import android.provider.Settings;
 
 import com.himanshugupta53.triggeraction.R;
 import com.himanshugupta53.triggeraction.trigger.ListOfAppsDialog;
+import com.himanshugupta53.triggeraction.trigger.TimeAtDialog;
+import com.himanshugupta53.triggeraction.trigger.TimeAtRepeatDialog;
 import com.himanshugupta53.triggeraction.trigger.TriggerDialog;
+import com.himanshugupta53.triggeraction.trigger.TriggerModelGroup;
+import com.himanshugupta53.triggeraction.trigger.WifiScanResultsAvailableDialog;
 import com.himanshugupta53.triggeraction.utility.WifiCustomManager;
 
 public enum ActionModelGroup {
 	WIFI_SWITCH_ON("WIFI", 0),
 	WIFI_SWITCH_OFF("WIFI", 0),
+	WIFI_CONNECT_TO_NETWORK("WIFI", 2),
+	WIFI_DISCONNECT_FROM_NETWORK("WIFI", 1),
 	BLUETOOTH_SWITCH_ON("BLUETOOTH", 0),
 	BLUETOOTH_SWITCH_OFF("BLUETOOTH", 0),
 	GPS_SWITCH_ON("GPS", 0),
@@ -34,6 +40,37 @@ public enum ActionModelGroup {
 		noOfInputs = num;
 	}
 
+	public static ActionModelGroup[] getValuesForTrigger(TriggerModelGroup tMG){
+		switch(tMG){
+		case WIFI_CONNECTED_TO_SPECIFIC_NETWORK:
+		case WIFI_DISCONNECTED_FROM_SPECIFIC_NETWORK:
+		case APP_OPENED_SPECIFIC:
+		case TIME_AT:
+		case TIME_AT_REPEAT:
+		case TIME_FROM_TO:
+		case WIFI_SWITCHED_ON:
+		case WIFI_SWITCHED_OFF:
+		case WIFI_CONNECTED_TO_ANY_NETWORK:
+		case WIFI_DISCONNECTED_FROM_ANY_NETWORK:
+		case BLUETOOTH_SWITCHED_ON:
+		case BLUETOOTH_SWITCHED_OFF:
+		case SMS_RECEIVED:
+		case PHONE_CALL_RECEIVED:
+		case PHONE_CALL_MADE:
+		case PHONE_LOCKED:
+		case PHONE_UNLOCKED:
+		case APP_OPENED_ANY:
+		case GPS_SWITCHED_ON:
+		case GPS_SWITCHED_OFF:
+		case BATTERY_LEVEL_LOW:
+		case BATTERY_LEVEL_OKAY:
+		case POWER_CONNECTED:
+		case POWER_DISCONNECTED:
+			default:
+				return ActionModelGroup.values();
+		}
+	}
+	
 	public String getGroupName(){
 		return groupName;
 	}

@@ -104,6 +104,7 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
 	
 	public void goToActionActivity(){
 		Intent intent = new Intent(this, ActionActivity.class);
+		intent.putExtra("trigger", Config.trigger);
 		startActivity(intent);
 	}
 	
