@@ -12,6 +12,11 @@ public class Config {
 	private static List<String> triggerInputs, actionInputs;
 	public static boolean triggerActionSet;
 	
+	public static void resetData(){
+		triggerInputs = null;
+		actionInputs = null;
+	}
+	
 	public static void addTriggerInput(String str){
 		if (triggerInputs == null)
 			triggerInputs = new ArrayList<String>();

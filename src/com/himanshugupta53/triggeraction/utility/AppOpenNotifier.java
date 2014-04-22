@@ -13,11 +13,27 @@ public class AppOpenNotifier extends Thread {
 	boolean requiredForAppOpen = false;
 	String topActivityPackageName = null;
 	MyService service = null;
+	private static AppOpenNotifier appOpenNotifier = null;
 	
-	public AppOpenNotifier(boolean b, MyService s){
+	public static AppOpenNotifier getInstance(boolean b, MyService s){
+		if (appOpenNotifier != null)
+			appOpenNotifier.terminate();
+		appOpenNotifier = new AppOpenNotifier(b, s);
+		appOpenNotifier.initialize(b, s);
+		return appOpenNotifier;
+	}
+	
+	private AppOpenNotifier(boolean b, MyService s){
 		super();
+	}
+	
+	private void initialize(boolean b, MyService s){
 		requiredForAppOpen = b;
 		service = s;
+	}
+	
+	private void terminate(){
+		requiredForAppOpen = false;
 	}
 	
 	@Override

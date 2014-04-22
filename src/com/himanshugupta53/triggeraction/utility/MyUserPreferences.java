@@ -15,26 +15,32 @@ public class MyUserPreferences{
 	private static HashMap<String, Set<String>> triggerActionHashMap = null;
 	public static String triggerKey = "triggers";
 
-	private static void instantiate(){
-		if (MyUserPreferences.userPreferences == null){
-			MyUserPreferences.userPreferences = context.getSharedPreferences("TriggerAction", 0);
+	private static SharedPreferences userPreferences(){
+		if (userPreferences == null){
+			userPreferences = context.getSharedPreferences("TriggerAction", 0);
+		}
+		return userPreferences;
+	}
+	
+	private static HashMap<String, Set<String>> triggerActionHashMap(){
+		if (triggerActionHashMap == null){
 			triggerActionHashMap = new HashMap<String, Set<String>>();
 		}
+		return triggerActionHashMap;
 	}
-
+	
 	public static void setContext(Context _context){
 		context = _context;
-		instantiate();
 	}
 
 	public static void setBoolean(String key, boolean value){
-		SharedPreferences.Editor editor = userPreferences.edit();
+		SharedPreferences.Editor editor = MyUserPreferences.userPreferences().edit();
 		editor.putBoolean(key, value);
 		editor.commit();
 	}
 
 	public static boolean getBoolean(String key, boolean _default){
-		return userPreferences.getBoolean(key, _default);
+		return MyUserPreferences.userPreferences().getBoolean(key, _default);
 	}
 
 	public static boolean getBoolean(String key){
@@ -42,13 +48,13 @@ public class MyUserPreferences{
 	}
 
 	public static void setString(String key, String value){
-		SharedPreferences.Editor editor = userPreferences.edit();
+		SharedPreferences.Editor editor = MyUserPreferences.userPreferences().edit();
 		editor.putString(key, value);
 		editor.commit();
 	}
 
 	public static String getString(String key, String _default){
-		return userPreferences.getString(key, _default);
+		return MyUserPreferences.userPreferences().getString(key, _default);
 	}
 
 	public static String getString(String key){
@@ -58,7 +64,7 @@ public class MyUserPreferences{
 	public static void setStringSet(String key, Set<String> value){
 		String stringValue = "";
 		if (value != null){
-			triggerActionHashMap.put(key, value);
+			MyUserPreferences.triggerActionHashMap().put(key, value);
 			for (String str : value){
 				stringValue = stringValue + str + "|";
 			}
@@ -67,7 +73,7 @@ public class MyUserPreferences{
 	}
 
 	public static Set<String> getStringSet(String key, Set<String> _default){
-		Set<String> set = triggerActionHashMap.get(key);
+		Set<String> set = MyUserPreferences.triggerActionHashMap().get(key);
 		if (set != null)
 			return set;
 		set = new HashSet<String>();
@@ -79,12 +85,14 @@ public class MyUserPreferences{
 			set.add(str);
 		}
 		if (set != null){
-			triggerActionHashMap.put(key, set);
+			MyUserPreferences.triggerActionHashMap().put(key, set);
 		}
 		return set;
 	}
 
 	public static Set<String> getStringSet(String key){
+		if (key == null)
+			return null;
 		return getStringSet(key, null);
 	}
 }

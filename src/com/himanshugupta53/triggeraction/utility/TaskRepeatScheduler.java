@@ -24,12 +24,12 @@ public class TaskRepeatScheduler extends Thread {
 	public void run() {
 		if (!requiredForTimeManagement)
 			return;
-		String[] inputs = input.split("|");
+		String[] inputs = input.split("\\|");
 		long startingEpochTime = Long.parseLong(inputs[0]);
 		String period = inputs[1];
 		int timeOfPeriod = 0;
 		if (period.equals("onetime")){
-			timeOfPeriod = -1;
+			timeOfPeriod = 60 * 1000;
 		}
 		else if (period.equals("hourly")){
 			timeOfPeriod = 3600 * 1000;
@@ -61,8 +61,8 @@ public class TaskRepeatScheduler extends Thread {
 		else{
 			for (int i = 0; i < noOfTimes; i++){
 				Intent intent = new Intent(service, AlarmManagerReceiver.class);
-				intent.putExtra("time", ""+(startingEpochTime + i *timeOfPeriod));
-				PendingIntent pendingIntent = PendingIntent.getBroadcast(service, 0, intent, 0);
+				intent.putExtra("time", ""+(startingEpochTime + i * timeOfPeriod));
+				PendingIntent pendingIntent = PendingIntent.getBroadcast(service, i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 				alarmManager.set(AlarmManager.RTC_WAKEUP, startingEpochTime + i * timeOfPeriod, pendingIntent);
 			}
 		}

@@ -8,16 +8,17 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
-import android.provider.Settings;
 
 import com.himanshugupta53.triggeraction.R;
+import com.himanshugupta53.triggeraction.main.AlarmCancelActivity;
 import com.himanshugupta53.triggeraction.trigger.ListOfAppsDialog;
-import com.himanshugupta53.triggeraction.trigger.TimeAtDialog;
-import com.himanshugupta53.triggeraction.trigger.TimeAtRepeatDialog;
 import com.himanshugupta53.triggeraction.trigger.TriggerDialog;
 import com.himanshugupta53.triggeraction.trigger.TriggerModelGroup;
-import com.himanshugupta53.triggeraction.trigger.WifiScanResultsAvailableDialog;
+import com.himanshugupta53.triggeraction.utility.Utility;
 import com.himanshugupta53.triggeraction.utility.WifiCustomManager;
 
 public enum ActionModelGroup {
@@ -29,8 +30,12 @@ public enum ActionModelGroup {
 	BLUETOOTH_SWITCH_OFF("BLUETOOTH", 0),
 	GPS_SWITCH_ON("GPS", 0),
 	GPS_SWITCH_OFF("GPS", 0),
-	APP_SPECIFIC_OPEN("APP", 1);
-
+	APP_SPECIFIC_OPEN("APP", 1),
+	CHANGE_VOLUME("VOLUME", 8),
+	GPRS_SWITCH_ON("GPRS", 0),
+	GPRS_SWITCH_OFF("GPRS", 0),
+	VIBRATE("VIBRATE", 0),
+	ALARM("ALARM", 0);
 
 	private String groupName = null, title = null, description = null, fulldescription = null;
 	private int noOfInputs = 0;
@@ -43,29 +48,39 @@ public enum ActionModelGroup {
 	public static ActionModelGroup[] getValuesForTrigger(TriggerModelGroup tMG){
 		switch(tMG){
 		case WIFI_CONNECTED_TO_SPECIFIC_NETWORK:
+			return new ActionModelGroup[]{WIFI_SWITCH_OFF, WIFI_DISCONNECT_FROM_NETWORK, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, GPS_SWITCH_ON, GPS_SWITCH_OFF, APP_SPECIFIC_OPEN, CHANGE_VOLUME, GPRS_SWITCH_ON, GPRS_SWITCH_OFF, VIBRATE, ALARM};
 		case WIFI_DISCONNECTED_FROM_SPECIFIC_NETWORK:
-		case APP_OPENED_SPECIFIC:
-		case TIME_AT:
-		case TIME_AT_REPEAT:
+			return new ActionModelGroup[]{WIFI_SWITCH_ON, WIFI_SWITCH_OFF, WIFI_CONNECT_TO_NETWORK, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, GPS_SWITCH_ON, GPS_SWITCH_OFF, APP_SPECIFIC_OPEN, CHANGE_VOLUME, GPRS_SWITCH_ON, GPRS_SWITCH_OFF, VIBRATE, ALARM};
 		case TIME_FROM_TO:
+			return new ActionModelGroup[]{WIFI_SWITCH_ON, WIFI_SWITCH_OFF, WIFI_CONNECT_TO_NETWORK, WIFI_DISCONNECT_FROM_NETWORK, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, GPS_SWITCH_ON, GPS_SWITCH_OFF, CHANGE_VOLUME, GPRS_SWITCH_ON, GPRS_SWITCH_OFF};
 		case WIFI_SWITCHED_ON:
+			return new ActionModelGroup[]{WIFI_CONNECT_TO_NETWORK, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, GPS_SWITCH_ON, GPS_SWITCH_OFF, APP_SPECIFIC_OPEN, CHANGE_VOLUME, GPRS_SWITCH_ON, GPRS_SWITCH_OFF, VIBRATE, ALARM};
 		case WIFI_SWITCHED_OFF:
+			return new ActionModelGroup[]{BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, GPS_SWITCH_ON, GPS_SWITCH_OFF, APP_SPECIFIC_OPEN, CHANGE_VOLUME, GPRS_SWITCH_ON, GPRS_SWITCH_OFF, VIBRATE, ALARM};
 		case WIFI_CONNECTED_TO_ANY_NETWORK:
+			return new ActionModelGroup[]{WIFI_SWITCH_OFF, WIFI_CONNECT_TO_NETWORK, WIFI_DISCONNECT_FROM_NETWORK, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, GPS_SWITCH_ON, GPS_SWITCH_OFF, APP_SPECIFIC_OPEN, CHANGE_VOLUME, GPRS_SWITCH_ON, GPRS_SWITCH_OFF, VIBRATE, ALARM};
 		case WIFI_DISCONNECTED_FROM_ANY_NETWORK:
+			return new ActionModelGroup[]{WIFI_SWITCH_OFF, WIFI_CONNECT_TO_NETWORK, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, GPS_SWITCH_ON, GPS_SWITCH_OFF, APP_SPECIFIC_OPEN, CHANGE_VOLUME, GPRS_SWITCH_ON, GPRS_SWITCH_OFF, VIBRATE, ALARM};
 		case BLUETOOTH_SWITCHED_ON:
 		case BLUETOOTH_SWITCHED_OFF:
-		case SMS_RECEIVED:
-		case PHONE_CALL_RECEIVED:
-		case PHONE_CALL_MADE:
-		case PHONE_LOCKED:
-		case PHONE_UNLOCKED:
-		case APP_OPENED_ANY:
+			return new ActionModelGroup[]{WIFI_SWITCH_ON, WIFI_SWITCH_OFF, WIFI_CONNECT_TO_NETWORK, WIFI_DISCONNECT_FROM_NETWORK, GPS_SWITCH_ON, GPS_SWITCH_OFF, APP_SPECIFIC_OPEN, CHANGE_VOLUME, GPRS_SWITCH_ON, GPRS_SWITCH_OFF, VIBRATE, ALARM};
 		case GPS_SWITCHED_ON:
 		case GPS_SWITCHED_OFF:
+			return new ActionModelGroup[]{WIFI_SWITCH_ON, WIFI_SWITCH_OFF, WIFI_CONNECT_TO_NETWORK, WIFI_DISCONNECT_FROM_NETWORK, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, APP_SPECIFIC_OPEN, CHANGE_VOLUME, GPRS_SWITCH_ON, GPRS_SWITCH_OFF, VIBRATE, ALARM};
+		case PHONE_CALL_RECEIVED:
+		case PHONE_CALL_MADE:
+			return new ActionModelGroup[]{WIFI_SWITCH_ON, WIFI_SWITCH_OFF, WIFI_CONNECT_TO_NETWORK, WIFI_DISCONNECT_FROM_NETWORK, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, APP_SPECIFIC_OPEN, CHANGE_VOLUME, GPRS_SWITCH_ON, GPRS_SWITCH_OFF, VIBRATE};
 		case BATTERY_LEVEL_LOW:
 		case BATTERY_LEVEL_OKAY:
 		case POWER_CONNECTED:
 		case POWER_DISCONNECTED:
+		case APP_OPENED_SPECIFIC:
+		case TIME_AT:
+		case TIME_AT_REPEAT:
+		case SMS_RECEIVED:
+		case PHONE_LOCKED:
+		case PHONE_UNLOCKED:
+		case APP_OPENED_ANY:
 			default:
 				return ActionModelGroup.values();
 		}
@@ -207,14 +222,78 @@ public enum ActionModelGroup {
 			BluetoothAdapter.getDefaultAdapter().disable();    
 		    break;
 		case GPS_SWITCH_ON:
-			turnGPSOn(context);
+			Utility.turnGPSOn(context);
 			break;
 		case GPS_SWITCH_OFF:
-			turnGPSOff(context);
+			Utility.turnGPSOff(context);
 			break;
 		case APP_SPECIFIC_OPEN:
 			context.startActivity(context.getPackageManager().getLaunchIntentForPackage(inputList.get(0)));
 			break;
+		case CHANGE_VOLUME:
+			AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, Integer.parseInt(inputList.get(0)), 0);
+			audioManager.setStreamVolume(AudioManager.STREAM_RING, Integer.parseInt(inputList.get(1)), 0);
+			audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, Integer.parseInt(inputList.get(2)), 0);
+			audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, Integer.parseInt(inputList.get(3)), 0);
+			break;
+		case GPRS_SWITCH_ON:
+			Utility.turnGPRSOn(context);
+			break;
+		case GPRS_SWITCH_OFF:
+			Utility.turnGPRSOff(context);
+			break;
+		case VIBRATE:
+			Utility.vibratePhoneForTime(context, 1000);
+			break;
+		case ALARM:
+			Utility.playAlarm(context);
+			Utility.vibratePhoneForTime(context, 500);
+			Intent intent = new Intent(context, AlarmCancelActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(intent);
+			break;
+		default:
+		}
+	}
+	
+	public void performOppositeAction(Context context, List<String> inputList){
+		switch(this){
+		case WIFI_SWITCH_ON:
+			WIFI_SWITCH_OFF.performAction(context, null);
+			break;
+		case WIFI_SWITCH_OFF:
+			WIFI_SWITCH_ON.performAction(context, null);
+			break;
+		case BLUETOOTH_SWITCH_ON:
+			BLUETOOTH_SWITCH_OFF.performAction(context, null);
+		    break;
+		case BLUETOOTH_SWITCH_OFF:
+			BLUETOOTH_SWITCH_ON.performAction(context, null);    
+		    break;
+		case GPS_SWITCH_ON:
+			GPS_SWITCH_OFF.performAction(context, null);
+			break;
+		case GPS_SWITCH_OFF:
+			GPS_SWITCH_ON.performAction(context, null);
+			break;
+		case CHANGE_VOLUME:
+			AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, Integer.parseInt(inputList.get(4)), 0);
+			audioManager.setStreamVolume(AudioManager.STREAM_RING, Integer.parseInt(inputList.get(5)), 0);
+			audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, Integer.parseInt(inputList.get(6)), 0);
+			audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, Integer.parseInt(inputList.get(7)), 0);
+			break;
+		case GPRS_SWITCH_ON:
+			GPRS_SWITCH_OFF.performAction(context, null);
+			break;
+		case GPRS_SWITCH_OFF:
+			GPRS_SWITCH_ON.performAction(context, null);
+			break;
+		case APP_SPECIFIC_OPEN:
+		case VIBRATE:
+		case ALARM:
 		default:
 		}
 	}
@@ -226,47 +305,25 @@ public enum ActionModelGroup {
 		switch(this){
 		case APP_SPECIFIC_OPEN:
 			return new ListOfAppsDialog(context);
+		case CHANGE_VOLUME:
+			return new ChangeVolumeDialog(context);
 		case WIFI_SWITCH_ON:
 		case WIFI_SWITCH_OFF:
 		case BLUETOOTH_SWITCH_ON:
 		case BLUETOOTH_SWITCH_OFF:
 		case GPS_SWITCH_ON:
 		case GPS_SWITCH_OFF:
+		case GPRS_SWITCH_ON:
+		case GPRS_SWITCH_OFF:
+		case VIBRATE:
+		case ALARM:
 		default:
 			return null;
 
 		}
 	}
 	
-	public void turnGPSOn(Context ctx)
-	{
-	     Intent intent = new Intent("android.location.GPS_ENABLED_CHANGE");
-	     intent.putExtra("enabled", true);
-	     ctx.sendBroadcast(intent);
-
-	    String provider = Settings.Secure.getString(ctx.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-	    if(!provider.contains("gps")){ //if gps is disabled
-	        final Intent poke = new Intent();
-	        poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider"); 
-	        poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
-	        poke.setData(Uri.parse("3")); 
-	        ctx.sendBroadcast(poke);
-
-
-	    }
-	}
-	// automatic turn off the gps
-	public void turnGPSOff(Context ctx)
-	{
-	    String provider = Settings.Secure.getString(ctx.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-	    if(provider.contains("gps")){ //if gps is enabled
-	        final Intent poke = new Intent();
-	        poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
-	        poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
-	        poke.setData(Uri.parse("3")); 
-	        ctx.sendBroadcast(poke);
-	    }
-	}
+	
 	
 
 }

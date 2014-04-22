@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.himanshugupta53.triggeraction"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.himanshugupta53.triggeraction"
     android:versionCode="1"
-    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -9,13 +10,16 @@
 
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -24,7 +28,9 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.himanshugupta53.triggeraction.main.MainActivity"
-            android:label="@string/app_name" >
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,79 +39,105 @@
         </activity>
         <activity
             android:name="com.himanshugupta53.triggeraction.utility.CustomListActivity"
-            android:label="@string/title_activity_custom_list" >
+            android:configChanges="orientation"
+            android:label="@string/title_activity_custom_list"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.himanshugupta53.triggeraction.trigger.TriggerActivity"
-            android:label="@string/title_activity_trigger" >
+            android:configChanges="orientation"
+            android:label="@string/title_activity_trigger"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.himanshugupta53.triggeraction.utility.CustomExpandableListActivity"
-            android:label="@string/title_activity_custom_expandable_list" >
+            android:configChanges="orientation"
+            android:label="@string/title_activity_custom_expandable_list"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.himanshugupta53.triggeraction.utility.PopupActivity"
-            android:label="@string/title_activity_popup" >
+            android:configChanges="orientation"
+            android:label="@string/title_activity_popup"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.himanshugupta53.triggeraction.action.ActionActivity"
-            android:label="@string/title_activity_action" >
+            android:configChanges="orientation"
+            android:label="@string/title_activity_action"
+            android:screenOrientation="portrait" >
         </activity>
 
-        <receiver android:name=".utility.broadcastreceiver.WifiStateChangedReceiver" >
+        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.WifiStateChangedReceiver" >
             <intent-filter>
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
-        <service android:permission="android.permission.READ_LOGS" android:name=".utility.MyService"></service>
-        <receiver android:name=".utility.broadcastreceiver.AppOpened">
+
+        <service
+            android:name="com.himanshugupta53.triggeraction.utility.MyService"
+            android:permission="android.permission.READ_LOGS" >
+        </service>
+
+        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.AppOpened" >
             <intent-filter>
-                <action android:name="AppOpened"/>
+                <action android:name="AppOpened" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utility.broadcastreceiver.SMSReceived">
+        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.SMSReceived" >
             <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utility.broadcastreceiver.PhoneCallReceived">
+        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.PhoneCallReceived" >
             <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE"/>
+                <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utility.broadcastreceiver.PhoneCallMade">
+        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.PhoneCallMade" >
             <intent-filter>
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utility.broadcastreceiver.WifiConnected">
+        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.WifiConnected" >
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utility.broadcastreceiver.ScreenLock">
+        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.ScreenLock" >
             <intent-filter>
-                <action android:name="PhoneLockStatusChanged"/>
+                <action android:name="PhoneLockStatusChanged" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utility.broadcastreceiver.GPSStateChanged">
+        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.GPSStateChanged" >
             <intent-filter>
-                <action android:name="android.location.PROVIDERS_CHANGED"/>
+                <action android:name="android.location.PROVIDERS_CHANGED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utility.broadcastreceiver.BatteryLevelChanged">
+        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.BatteryLevelChanged" >
             <intent-filter>
-                <action android:name="android.intent.action.BATTERY_LOW"/>
-                <action android:name="android.intent.action.BATTERY_OKAY"/>
+                <action android:name="android.intent.action.BATTERY_LOW" />
+                <action android:name="android.intent.action.BATTERY_OKAY" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utility.broadcastreceiver.PowerConnectionChanged">
+        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.PowerConnectionChanged" >
             <intent-filter>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utility.broadcastreceiver.AlarmManagerReceiver"></receiver>
+        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.AlarmManagerReceiver" >
+        </receiver>
+
+        <activity
+            android:name="com.himanshugupta53.triggeraction.main.AlarmCancelActivity"
+            android:label="@string/title_activity_alarm_cancel" >
+        </activity>
+        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.BluetoothStateChanged">
+            <intent-filter>
+                <action android:name="BluetoothStateChanged" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

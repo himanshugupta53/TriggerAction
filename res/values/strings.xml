@@ -12,13 +12,11 @@
     <string name="title_activity_custom_expandable_list">CustomExpandableListActivity</string>
     <string name="title_activity_popup">PopupActivity</string>
     <string name="title_activity_action">ActionActivity</string>
-    
-    
     <string name="wifi_trigger_title">Wifi</string>
     <string name="wifi_trigger_description">Switching on/off your Wifi, connecting to a network</string>
     <string name="bluetooth_trigger_title">Bluetooth</string>
     <string name="bluetooth_trigger_description">Define a trigger point on switching on/off your bluetooth</string>
-	<string name="battery_trigger_title">Battery Meter</string>
+    <string name="battery_trigger_title">Battery Meter</string>
     <string name="battery_trigger_description">Save your batter by defining trigger points when battery is low</string>
     <string name="sms_trigger_title">Message Sent/Received</string>
     <string name="sms_trigger_description">Want to do something when a message is received?</string>
@@ -32,7 +30,8 @@
     <string name="gps_trigger_description">Whenever I switch on my gps, I want to send an sms about my location</string>
     <string name="time_trigger_title">Time Reminders</string>
     <string name="time_trigger_description">Don\'t disturb me from 11pm to 6am.</string>
-    
+    <string name="gprs_trigger_title">Data Connection</string>
+    <string name="gprs_trigger_description">When you connect to or disconnect from data connection</string>
     <string name="wifi_switched_on_trigger_fulldescription">Create a trigger point when you switch on your wifi</string>
     <string name="wifi_switched_off_trigger_fulldescription">Create a trigger point when you switch off your wifi</string>
     <string name="wifi_connected_to_any_network_trigger_fulldescription">Create a trigger point when you connect to a wifi hotspot</string>
@@ -57,7 +56,8 @@
     <string name="time_at_trigger_fulldescription">Create a reminder for a specified time</string>
     <string name="time_at_repeat_trigger_fulldescription">Create a repeated reminder</string>
     <string name="time_from_to_trigger_fulldescription">Do an action for a specified period of time</string>
-    
+    <string name="data_connection_connected_trigger_fulldescription">When gprs is switched on</string>
+    <string name="data_connection_disconnected_trigger_fulldescription">When gprs is switched off</string>
     <string name="wifi_switch_on_action_title">Wifi</string>
     <string name="wifi_switch_on_action_description">Switch on your Wifi</string>
     <string name="wifi_switch_off_action_title">Wifi</string>
@@ -66,19 +66,36 @@
     <string name="bluetooth_switch_on_action_description">Switch on your bluetooth</string>
     <string name="bluetooth_switch_off_action_title">Bluetooth</string>
     <string name="bluetooth_switch_off_action_description">Switch off your bluetooth</string>
-	<string name="app_specific_open_action_title">Open an app</string>
+    <string name="app_specific_open_action_title">Open an app</string>
     <string name="app_specific_open_action_description">Open a specific app as action of a trigger point</string>
     <string name="gps_switch_on_action_title">GPS</string>
     <string name="gps_switch_on_action_description">Switch on your GPS</string>
     <string name="gps_switch_off_action_title">GPS</string>
     <string name="gps_switch_off_action_description">Switch off your GPS</string>
-    
+    <string name="wifi_connect_to_network_action_title">Wifi</string>
+    <string name="wifi_connect_to_network_action_description">Connect to a specified Wifi network</string>
+    <string name="wifi_disconnect_from_network_action_title">Wifi</string>
+    <string name="wifi_disconnect_from_network_action_description">Disconnect from a specified Wifi network</string>
+    <string name="change_volume_action_title">Volume</string>
+    <string name="change_volume_action_description">Change Volume of phone/make it silent</string>
+    <string name="gprs_switch_on_action_title">GPRS</string>
+    <string name="gprs_switch_on_action_description">Switch on my data connection</string>
+    <string name="gprs_switch_off_action_title">GPRS</string>
+    <string name="gprs_switch_off_action_description">Switch off my data connection</string>
+    <string name="vibrate_action_title">Vibrate</string>
+    <string name="vibrate_action_description">Vibrate my phone</string>
+    <string name="alarm_action_title">Alarm</string>
+    <string name="alarm_action_description">Sound alarm</string>
+
     <string-array name="alarm_time_repeat">
         <item>OneTime</item>
         <item>Hourly</item>
         <item>Daily</item>
         <item>Weekly</item>
     </string-array>
-    
-    
+
+    <string name="title_activity_alarm_cancel">AlarmCancelActivity</string>
+    <string name="AlarmSwitchOnButtonText">ON</string>
+    <string name="AlarmSwitchOffButtonText">Switch off the alarm</string>
+
 </resources>

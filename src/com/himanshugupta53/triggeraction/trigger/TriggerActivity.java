@@ -6,6 +6,9 @@ import java.util.Set;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,6 +48,16 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
 		super.setDescriptionValues(descriptionStrings);
 		super.onCreate(savedInstanceState);
 		Config.triggerActionSet = false;
+		
+		ListView lv = (ListView) findViewById(android.R.id.list);
+		Drawable bg = lv.getBackground();
+	    if (bg != null) {
+	        if (bg instanceof BitmapDrawable) {
+	            BitmapDrawable bmp = (BitmapDrawable) bg;
+	            bmp.mutate(); // make sure that we aren't sharing state anymore
+	            bmp.setTileModeXY(TileMode.REPEAT, TileMode.REPEAT);
+	        }
+	    }
 	}
 
 	@Override
@@ -93,8 +106,7 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
 		Config.trigger = tMG;
 		dialog.dismiss();
 		if (tMG.getNoOfInputs() == 0){
-			Intent intent = new Intent(this, ActionActivity.class);
-			startActivity(intent);
+			goToActionActivity();
 		}
 		else{
 			triggerInputDialog = Config.trigger.getDialogPopup(this);
@@ -121,10 +133,10 @@ public class TriggerActivity extends CustomListActivity implements OnClickListen
             @Override
             public void handleMessage(Message msg)
             {
-                progress.dismiss();
                 triggerInputDialog.setResult(msg.obj);
                 triggerInputDialog.show();
                 super.handleMessage(msg);
+                progress.dismiss();
             }
 
         };

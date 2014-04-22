@@ -108,6 +108,10 @@ public class TriggerActionParser {
 		if (triggerActions != null){
 			for (Iterator<String> iterator = triggerActions.iterator(); iterator.hasNext();) {
 			    String str = iterator.next();
+			    if (str == null || str.equals("")){
+			    	iterator.remove();
+			    	continue;
+			    }
 			    TriggerActionParser t = deserialize(str);
 			    if (this.equals(t)){
 			    	iterator.remove();
@@ -162,6 +166,8 @@ public class TriggerActionParser {
 		List<TriggerActionParser> list = new ArrayList<TriggerActionParser>();
 		if (stringSet != null){
 			for (String str : stringSet){
+				if (str == null || str.equals(""))
+					continue;
 				TriggerActionParser tAP = deserialize(str);
 				list.add(tAP);
 			}
@@ -174,6 +180,8 @@ public class TriggerActionParser {
 		List<TriggerActionParser> list = new ArrayList<TriggerActionParser>();
 		if (stringSet != null){
 			for (String str : stringSet){
+				if (str == null || str.equals(""))
+					continue;
 				TriggerActionParser tAP = deserialize(str);
 				if (Utility.areListsEqual(tAP.triggerInputs, triggerInputs))
 					list.add(tAP);
@@ -183,6 +191,7 @@ public class TriggerActionParser {
 	}
 	
 	public static void performTriggerAction(TriggerModelGroup trigger, List<String> triggerInputs, Context context){
+		MyUserPreferences.setContext(context);
 		List<TriggerActionParser> triggerActions = getSavedActionsForTrigger(trigger, triggerInputs);
 		for (TriggerActionParser triggerAction : triggerActions){
 			triggerAction.action.performAction(context, triggerAction.actionInputs);
@@ -200,6 +209,8 @@ public class TriggerActionParser {
 				continue;
 			}
 			for (String str : triggerActions){
+				if (str == null || str.equals(""))
+					continue;
 				finalSet.add(deserialize(str));
 			}
 		}

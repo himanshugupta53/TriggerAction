@@ -1,6 +1,5 @@
 package com.himanshugupta53.triggeraction.utility;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 
 public class BluetoothStateNotifier extends Thread {
@@ -8,11 +7,28 @@ public class BluetoothStateNotifier extends Thread {
 	boolean requiredForBluetoothStateCheck = false;
 	MyService service = null;
 	boolean isBluetoothEnabled = false;
+	private static BluetoothStateNotifier bluetoothStateNotifier = null;
 
-	public BluetoothStateNotifier(boolean b, MyService s){
+	public static BluetoothStateNotifier getInstance(boolean b, MyService s){
+		if (bluetoothStateNotifier != null)
+			bluetoothStateNotifier.terminate();
+		bluetoothStateNotifier = new BluetoothStateNotifier(b, s);
+		bluetoothStateNotifier.initialize(b, s);
+		return bluetoothStateNotifier;
+	}
+
+	private BluetoothStateNotifier(boolean b, MyService s){
 		super();
+	}
+
+	private void initialize(boolean b, MyService s){
 		requiredForBluetoothStateCheck = b;
 		service = s;
+		isBluetoothEnabled = Utility.isBluetoothEnabled();
+	}
+
+	private void terminate(){
+		requiredForBluetoothStateCheck = false;
 	}
 
 	@Override
@@ -20,8 +36,7 @@ public class BluetoothStateNotifier extends Thread {
 		while(requiredForBluetoothStateCheck){
 			try {
 				Thread.sleep(2000);
-				BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-				boolean isEnabled = mBluetoothAdapter.isEnabled();
+				boolean isEnabled = Utility.isBluetoothEnabled();
 				if (isBluetoothEnabled != isEnabled){
 					Intent intent = new Intent();
 					intent.setAction("BluetoothStateChanged");
@@ -37,5 +52,5 @@ public class BluetoothStateNotifier extends Thread {
 			}
 		}
 	}
-	
+
 }

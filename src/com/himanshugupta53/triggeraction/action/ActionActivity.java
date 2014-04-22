@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.wifi.WifiManager;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,17 +15,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.himanshugupta53.triggeraction.R;
+import com.himanshugupta53.triggeraction.main.MainActivity;
 import com.himanshugupta53.triggeraction.trigger.TriggerDialog;
 import com.himanshugupta53.triggeraction.trigger.TriggerModelGroup;
 import com.himanshugupta53.triggeraction.utility.Config;
 import com.himanshugupta53.triggeraction.utility.CustomListActivity;
-import com.himanshugupta53.triggeraction.utility.MyService;
 import com.himanshugupta53.triggeraction.utility.TriggerActionParser;
-import com.himanshugupta53.triggeraction.utility.broadcastreceiver.WifiStateChangedReceiver;
 
 public class ActionActivity extends CustomListActivity {
 
@@ -51,6 +48,16 @@ public class ActionActivity extends CustomListActivity {
 		super.setTitleValues(titleStrings);
 		super.setDescriptionValues(descriptionStrings);
 		super.onCreate(savedInstanceState);
+		
+		ListView lv = (ListView) findViewById(android.R.id.list);
+		Drawable bg = lv.getBackground();
+	    if (bg != null) {
+	        if (bg instanceof BitmapDrawable) {
+	            BitmapDrawable bmp = (BitmapDrawable) bg;
+	            bmp.mutate(); // make sure that we aren't sharing state anymore
+	            bmp.setTileModeXY(TileMode.REPEAT, TileMode.REPEAT);
+	        }
+	    }
 	}
 
 	@Override
@@ -96,7 +103,9 @@ public class ActionActivity extends CustomListActivity {
 		triggerAction.actionInputs = Config.getActionInputs();
 		triggerAction.performActionOnTrigger(this);
 		Config.triggerActionSet = true;
-		onBackPressed();
+		Intent intent = new Intent(this, MainActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
 	}
 	
 	public void showProgessDialog(){
@@ -112,10 +121,10 @@ public class ActionActivity extends CustomListActivity {
             @Override
             public void handleMessage(Message msg)
             {
-                progress.dismiss();
                 actionInputDialog.setResult(msg.obj);
                 actionInputDialog.show();
                 super.handleMessage(msg);
+                progress.dismiss();
             }
 
         };

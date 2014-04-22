@@ -6,8 +6,10 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +44,24 @@ public class MainActivity extends MainListActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		Intent intent= new Intent(this, MyService.class);
 		startService(intent);
+		
+		ListView lv = (ListView) findViewById(android.R.id.list);
+		Drawable bg = lv.getBackground();
+	    if (bg != null) {
+	        if (bg instanceof BitmapDrawable) {
+	            BitmapDrawable bmp = (BitmapDrawable) bg;
+	            bmp.mutate(); // make sure that we aren't sharing state anymore
+	            bmp.setTileModeXY(TileMode.REPEAT, TileMode.REPEAT);
+	        }
+	    }
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent){
+		if (Config.triggerActionSet){
+			Config.triggerActionSet = false;
+			refreshTriggerActionList();
+		}
 	}
 
 	@Override
@@ -57,6 +77,7 @@ public class MainActivity extends MainListActivity implements OnClickListener{
 		case R.id.action_addtriggeraction:
 			Intent intent = new Intent(this, TriggerActivity.class);
 			startActivity(intent);
+			Config.resetData();
 			Toast.makeText(this, "Choose a trigger to define an action on!", Toast.LENGTH_SHORT).show();
 			break;
 		default:

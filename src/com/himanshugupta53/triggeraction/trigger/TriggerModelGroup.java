@@ -40,7 +40,9 @@ public enum TriggerModelGroup {
 	GPS_SWITCHED_OFF("GPS", 0),
 	TIME_AT("TIME", 1),
 	TIME_AT_REPEAT("TIME", 3),
-	TIME_FROM_TO("TIME", 2);
+	TIME_FROM_TO("TIME", 2),
+	DATA_CONNECTION_CONNECTED("GPRS", 0),
+	DATA_CONNECTION_DISCONNECTED("GPRS", 0),;
 
 	private String groupName = null, title = null, description = null, fulldescription = null;
 	private int noOfInputs = 0;
@@ -181,7 +183,7 @@ public enum TriggerModelGroup {
 		case TIME_AT_REPEAT:
 			return new TimeAtRepeatDialog(context);
 		case TIME_FROM_TO:
-			return new TimeAtDialog(context);
+			return new TimeFromToDialog(context);
 		case WIFI_SWITCHED_ON:
 		case WIFI_SWITCHED_OFF:
 		case WIFI_CONNECTED_TO_ANY_NETWORK:
@@ -200,6 +202,8 @@ public enum TriggerModelGroup {
 		case BATTERY_LEVEL_OKAY:
 		case POWER_CONNECTED:
 		case POWER_DISCONNECTED:
+		case DATA_CONNECTION_CONNECTED:
+		case DATA_CONNECTION_DISCONNECTED:
 		default:
 			return null;
 
@@ -216,17 +220,21 @@ public enum TriggerModelGroup {
 		case PHONE_UNLOCKED:
 		case TIME_AT:
 		case TIME_AT_REPEAT:
+		case TIME_FROM_TO:
 			Intent intent= new Intent(context, MyService.class);
 			intent.putExtra(this.toString(), true);
-			String input = null;
+			String input = "";
 			if (tAP.triggerInputs != null){
 				for (String str : tAP.triggerInputs){
-					input = input + "|" + str;
+					input = input + str +"|";
 				}
+			}
+			if (input.length() > 0){
+				input = input.substring(0, input.length() - 1);
 			}
 			intent.putExtra("input", input);
 			context.startService(intent);
-			break;
+			break;			
 		case WIFI_CONNECTED_TO_SPECIFIC_NETWORK:
 		case WIFI_DISCONNECTED_FROM_SPECIFIC_NETWORK:
 		case WIFI_CONNECTED_TO_ANY_NETWORK:
@@ -242,7 +250,8 @@ public enum TriggerModelGroup {
 		case BATTERY_LEVEL_OKAY:
 		case POWER_CONNECTED:
 		case POWER_DISCONNECTED:
-		case TIME_FROM_TO:
+		case DATA_CONNECTION_CONNECTED:
+		case DATA_CONNECTION_DISCONNECTED:
 		default:
 		}
 	}
@@ -279,6 +288,8 @@ public enum TriggerModelGroup {
 		case TIME_AT:
 		case TIME_AT_REPEAT:
 		case TIME_FROM_TO:
+		case DATA_CONNECTION_CONNECTED:
+		case DATA_CONNECTION_DISCONNECTED:
 		default:
 		}
 	}
