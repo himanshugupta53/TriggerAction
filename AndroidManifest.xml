@@ -20,6 +20,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -133,11 +134,24 @@
             android:name="com.himanshugupta53.triggeraction.main.AlarmCancelActivity"
             android:label="@string/title_activity_alarm_cancel" >
         </activity>
-        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.BluetoothStateChanged">
+
+        <receiver android:name="com.himanshugupta53.triggeraction.utility.broadcastreceiver.BluetoothStateChanged" >
             <intent-filter>
                 <action android:name="BluetoothStateChanged" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name="com.himanshugupta53.triggeraction.AlertDialogActivity"
+            android:excludeFromRecents="true"
+            android:label="TriggerAction"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.himanshugupta53.triggeraction.MainActivity1"
+            android:label="@string/title_activity_main_activity1" >
+        </activity>
     </application>
 
 </manifest>

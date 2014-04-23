@@ -4,17 +4,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
+import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
+import com.himanshugupta53.triggeraction.AlertDialogActivity;
 import com.himanshugupta53.triggeraction.R;
 import com.himanshugupta53.triggeraction.main.AlarmCancelActivity;
+import com.himanshugupta53.triggeraction.main.MainActivity;
 import com.himanshugupta53.triggeraction.trigger.ListOfAppsDialog;
 import com.himanshugupta53.triggeraction.trigger.TriggerDialog;
 import com.himanshugupta53.triggeraction.trigger.TriggerModelGroup;
@@ -81,11 +86,11 @@ public enum ActionModelGroup {
 		case PHONE_LOCKED:
 		case PHONE_UNLOCKED:
 		case APP_OPENED_ANY:
-			default:
-				return ActionModelGroup.values();
+		default:
+			return ActionModelGroup.values();
 		}
 	}
-	
+
 	public String getGroupName(){
 		return groupName;
 	}
@@ -207,6 +212,7 @@ public enum ActionModelGroup {
 		return groups;
 	}
 
+	@SuppressLint("NewApi")
 	public void performAction(Context context, List<String> inputList){
 		switch(this){
 		case WIFI_SWITCH_ON:
@@ -217,10 +223,10 @@ public enum ActionModelGroup {
 			break;
 		case BLUETOOTH_SWITCH_ON:
 			BluetoothAdapter.getDefaultAdapter().enable();
-		    break;
+			break;
 		case BLUETOOTH_SWITCH_OFF:
 			BluetoothAdapter.getDefaultAdapter().disable();    
-		    break;
+			break;
 		case GPS_SWITCH_ON:
 			Utility.turnGPSOn(context);
 			break;
@@ -256,8 +262,32 @@ public enum ActionModelGroup {
 			break;
 		default:
 		}
+		if (context == null)
+			return;
+
+		context.startActivity(context.getPackageManager().getLaunchIntentForPackage(context.getPackageName()));
+
+		Intent intent = new Intent(context, AlertDialogActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
+
+		Toast.makeText(context, "This is a toast message", Toast.LENGTH_LONG).show();
+
+		intent = new Intent(context, MainActivity.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		
+		Notification n  = new NotificationCompat.Builder(context)
+		.setContentTitle("TriggerAction")
+		.setContentText("Hello friends, my name is Himanshu Gupta. I live in Bangalore. I work in Kiwi India Private Limited.")
+		.setSmallIcon(R.drawable.ic_launcher)
+		.setContentIntent(pendingIntent)
+		.build();
+
+		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+		notificationManager.notify(0, n); 
 	}
-	
+
 	public void performOppositeAction(Context context, List<String> inputList){
 		switch(this){
 		case WIFI_SWITCH_ON:
@@ -268,10 +298,10 @@ public enum ActionModelGroup {
 			break;
 		case BLUETOOTH_SWITCH_ON:
 			BLUETOOTH_SWITCH_OFF.performAction(context, null);
-		    break;
+			break;
 		case BLUETOOTH_SWITCH_OFF:
 			BLUETOOTH_SWITCH_ON.performAction(context, null);    
-		    break;
+			break;
 		case GPS_SWITCH_ON:
 			GPS_SWITCH_OFF.performAction(context, null);
 			break;
@@ -297,7 +327,7 @@ public enum ActionModelGroup {
 		default:
 		}
 	}
-	
+
 	public TriggerDialog getDialogPopup(Activity context){
 		if (this.getNoOfInputs() == 0){
 			return null;
@@ -322,8 +352,8 @@ public enum ActionModelGroup {
 
 		}
 	}
-	
-	
-	
+
+
+
 
 }
