@@ -6,16 +6,25 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class AlertDialogActivity extends Activity implements OnClickListener {
 
+	TextView description = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_alert_dialog);
 		
+		String desc = getIntent().getStringExtra("description");
 		Button button = (Button) findViewById(R.id.button);
 		button.setOnClickListener(this);
+		
+		if (desc != null && !desc.equals("")){
+			description = (TextView) findViewById(R.id.description);
+			description.setText(desc);
+		}
 	}
 
 	@Override

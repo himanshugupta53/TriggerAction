@@ -8,6 +8,7 @@ import android.app.KeyguardManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
@@ -157,6 +158,11 @@ public class Utility {
 		if (keyguardManager == null)
 			keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
 		return keyguardManager.inKeyguardRestrictedInputMode();
+	}
+	
+	public static boolean isHeadsetPlugged(Context context){
+		AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+		return audioManager.isWiredHeadsetOn();
 	}
 
 }

@@ -42,7 +42,10 @@ public enum TriggerModelGroup {
 	TIME_AT_REPEAT("TIME", 3),
 	TIME_FROM_TO("TIME", 2),
 	DATA_CONNECTION_CONNECTED("GPRS", 0),
-	DATA_CONNECTION_DISCONNECTED("GPRS", 0),;
+	DATA_CONNECTION_DISCONNECTED("GPRS", 0),
+	DEVICE_START("BOOT", 0),
+	HEADSET_CONNECTED("HEADSET", 0),
+	HEADSET_DISCONNECTED("HEADSET", 0);
 
 	private String groupName = null, title = null, description = null, fulldescription = null;
 	private int noOfInputs = 0;
@@ -204,6 +207,9 @@ public enum TriggerModelGroup {
 		case POWER_DISCONNECTED:
 		case DATA_CONNECTION_CONNECTED:
 		case DATA_CONNECTION_DISCONNECTED:
+		case DEVICE_START:
+		case HEADSET_CONNECTED:
+		case HEADSET_DISCONNECTED:
 		default:
 			return null;
 
@@ -252,6 +258,9 @@ public enum TriggerModelGroup {
 		case POWER_DISCONNECTED:
 		case DATA_CONNECTION_CONNECTED:
 		case DATA_CONNECTION_DISCONNECTED:
+		case DEVICE_START:
+		case HEADSET_CONNECTED:
+		case HEADSET_DISCONNECTED:
 		default:
 		}
 	}
@@ -290,6 +299,9 @@ public enum TriggerModelGroup {
 		case TIME_FROM_TO:
 		case DATA_CONNECTION_CONNECTED:
 		case DATA_CONNECTION_DISCONNECTED:
+		case DEVICE_START:
+		case HEADSET_CONNECTED:
+		case HEADSET_DISCONNECTED:
 		default:
 		}
 	}

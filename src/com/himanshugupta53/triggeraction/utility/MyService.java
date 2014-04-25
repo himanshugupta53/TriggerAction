@@ -26,6 +26,10 @@ public class MyService extends Service {
 		triggerActions2 = TriggerActionParser.getSavedActionsForTrigger(TriggerModelGroup.BLUETOOTH_SWITCHED_OFF);
 		boolean bluetoothStateChanged = intent.getBooleanExtra(TriggerModelGroup.BLUETOOTH_SWITCHED_ON.toString(), false) || intent.getBooleanExtra(TriggerModelGroup.BLUETOOTH_SWITCHED_OFF.toString(), false) || triggerActions1.size() > 0 || triggerActions2.size() > 0;
 
+		triggerActions1 = TriggerActionParser.getSavedActionsForTrigger(TriggerModelGroup.HEADSET_CONNECTED);
+		triggerActions2 = TriggerActionParser.getSavedActionsForTrigger(TriggerModelGroup.HEADSET_DISCONNECTED);
+		boolean headsetStateChanged = intent.getBooleanExtra(TriggerModelGroup.HEADSET_CONNECTED.toString(), false) || intent.getBooleanExtra(TriggerModelGroup.HEADSET_DISCONNECTED.toString(), false) || triggerActions1.size() > 0 || triggerActions2.size() > 0;
+		
 		triggerActions1 = TriggerActionParser.getSavedActionsForTrigger(TriggerModelGroup.PHONE_LOCKED);
 		triggerActions2 = TriggerActionParser.getSavedActionsForTrigger(TriggerModelGroup.PHONE_UNLOCKED);
 		boolean phoneLockStatusChanged = intent.getBooleanExtra(TriggerModelGroup.PHONE_LOCKED.toString(), false) || intent.getBooleanExtra(TriggerModelGroup.PHONE_UNLOCKED.toString(), false) || triggerActions1.size() > 0 || triggerActions2.size() > 0;
@@ -41,11 +45,13 @@ public class MyService extends Service {
 
 		AppOpenNotifier appOpenNotifier = AppOpenNotifier.getInstance(appOpened, this);
 		BluetoothStateNotifier bluetoothStateNotifier = BluetoothStateNotifier.getInstance(bluetoothStateChanged, this);
+		HeadsetStateNotifier headsetStateNotifier = HeadsetStateNotifier.getInstance(headsetStateChanged, this);
 		PhoneLockedStateNotifier phoneLockedStateNotifier = PhoneLockedStateNotifier.getInstance(phoneLockStatusChanged, this);
 		TaskScheduler taskScheduler = TaskScheduler.getInstance(timeScheduler || timeRepeatScheduler || timeFromToScheduler, this, input, timeFromToScheduler ?  TriggerModelGroup.TIME_FROM_TO : TriggerModelGroup.TIME_AT);
 		
 		appOpenNotifier.start();
 		bluetoothStateNotifier.start();
+		headsetStateNotifier.start();
 		phoneLockedStateNotifier.start();
 		taskScheduler.start();
 

@@ -11,6 +11,7 @@ public class Config {
 	public static ActionModelGroup action;
 	private static List<String> triggerInputs, actionInputs;
 	public static boolean triggerActionSet;
+	public static String notificationTypeUserPreferenceKey = "notificationType";
 	
 	public static void resetData(){
 		triggerInputs = null;

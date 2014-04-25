@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -17,12 +16,16 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.himanshugupta53.triggeraction.AlertDialogActivity;
+import com.himanshugupta53.triggeraction.NotificationChooser;
+import com.himanshugupta53.triggeraction.NotificationChooser.NotificationType;
 import com.himanshugupta53.triggeraction.R;
 import com.himanshugupta53.triggeraction.main.AlarmCancelActivity;
 import com.himanshugupta53.triggeraction.main.MainActivity;
 import com.himanshugupta53.triggeraction.trigger.ListOfAppsDialog;
 import com.himanshugupta53.triggeraction.trigger.TriggerDialog;
 import com.himanshugupta53.triggeraction.trigger.TriggerModelGroup;
+import com.himanshugupta53.triggeraction.utility.Config;
+import com.himanshugupta53.triggeraction.utility.MyUserPreferences;
 import com.himanshugupta53.triggeraction.utility.Utility;
 import com.himanshugupta53.triggeraction.utility.WifiCustomManager;
 
@@ -74,7 +77,10 @@ public enum ActionModelGroup {
 			return new ActionModelGroup[]{WIFI_SWITCH_ON, WIFI_SWITCH_OFF, WIFI_CONNECT_TO_NETWORK, WIFI_DISCONNECT_FROM_NETWORK, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, APP_SPECIFIC_OPEN, CHANGE_VOLUME, GPRS_SWITCH_ON, GPRS_SWITCH_OFF, VIBRATE, ALARM};
 		case PHONE_CALL_RECEIVED:
 		case PHONE_CALL_MADE:
-			return new ActionModelGroup[]{WIFI_SWITCH_ON, WIFI_SWITCH_OFF, WIFI_CONNECT_TO_NETWORK, WIFI_DISCONNECT_FROM_NETWORK, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, APP_SPECIFIC_OPEN, CHANGE_VOLUME, GPRS_SWITCH_ON, GPRS_SWITCH_OFF, VIBRATE};
+			return new ActionModelGroup[]{WIFI_SWITCH_ON, WIFI_SWITCH_OFF, WIFI_CONNECT_TO_NETWORK, WIFI_DISCONNECT_FROM_NETWORK, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, GPS_SWITCH_ON, GPS_SWITCH_OFF, APP_SPECIFIC_OPEN, CHANGE_VOLUME, GPRS_SWITCH_ON, GPRS_SWITCH_OFF, VIBRATE};
+		case DATA_CONNECTION_CONNECTED:
+		case DATA_CONNECTION_DISCONNECTED:
+			return new ActionModelGroup[]{WIFI_SWITCH_ON, WIFI_SWITCH_OFF, WIFI_CONNECT_TO_NETWORK, WIFI_DISCONNECT_FROM_NETWORK, BLUETOOTH_SWITCH_ON, BLUETOOTH_SWITCH_OFF, GPS_SWITCH_ON, GPS_SWITCH_OFF, APP_SPECIFIC_OPEN, CHANGE_VOLUME, VIBRATE};
 		case BATTERY_LEVEL_LOW:
 		case BATTERY_LEVEL_OKAY:
 		case POWER_CONNECTED:
@@ -86,6 +92,9 @@ public enum ActionModelGroup {
 		case PHONE_LOCKED:
 		case PHONE_UNLOCKED:
 		case APP_OPENED_ANY:
+		case DEVICE_START:
+		case HEADSET_CONNECTED:
+		case HEADSET_DISCONNECTED:
 		default:
 			return ActionModelGroup.values();
 		}
@@ -212,8 +221,12 @@ public enum ActionModelGroup {
 		return groups;
 	}
 
-	@SuppressLint("NewApi")
 	public void performAction(Context context, List<String> inputList){
+		if (context != null){
+			NotificationChooser.NotificationType notificationType = NotificationType.getValueOf(MyUserPreferences.getString(Config.notificationTypeUserPreferenceKey));
+			notificationType.performActionRelatedToNotificationType(context, "Action " + toString() + " has been performed");
+		}
+		
 		switch(this){
 		case WIFI_SWITCH_ON:
 			WifiCustomManager.getInstance(context).enableWifi();
@@ -262,30 +275,6 @@ public enum ActionModelGroup {
 			break;
 		default:
 		}
-		if (context == null)
-			return;
-
-		context.startActivity(context.getPackageManager().getLaunchIntentForPackage(context.getPackageName()));
-
-		Intent intent = new Intent(context, AlertDialogActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(intent);
-
-		Toast.makeText(context, "This is a toast message", Toast.LENGTH_LONG).show();
-
-		intent = new Intent(context, MainActivity.class);
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-		
-		Notification n  = new NotificationCompat.Builder(context)
-		.setContentTitle("TriggerAction")
-		.setContentText("Hello friends, my name is Himanshu Gupta. I live in Bangalore. I work in Kiwi India Private Limited.")
-		.setSmallIcon(R.drawable.ic_launcher)
-		.setContentIntent(pendingIntent)
-		.build();
-
-		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-		notificationManager.notify(0, n); 
 	}
 
 	public void performOppositeAction(Context context, List<String> inputList){

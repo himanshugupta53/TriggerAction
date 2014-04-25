@@ -32,6 +32,10 @@
     <string name="time_trigger_description">Don\'t disturb me from 11pm to 6am.</string>
     <string name="gprs_trigger_title">Data Connection</string>
     <string name="gprs_trigger_description">When you connect to or disconnect from data connection</string>
+    <string name="boot_trigger_title">Boot</string>
+    <string name="boot_trigger_description">When you restart the device</string>
+    <string name="headset_trigger_title">Headset</string>
+    <string name="headset_trigger_description">When you connect/disconnect your headset</string>
     <string name="wifi_switched_on_trigger_fulldescription">Create a trigger point when you switch on your wifi</string>
     <string name="wifi_switched_off_trigger_fulldescription">Create a trigger point when you switch off your wifi</string>
     <string name="wifi_connected_to_any_network_trigger_fulldescription">Create a trigger point when you connect to a wifi hotspot</string>
@@ -58,6 +62,9 @@
     <string name="time_from_to_trigger_fulldescription">Do an action for a specified period of time</string>
     <string name="data_connection_connected_trigger_fulldescription">When gprs is switched on</string>
     <string name="data_connection_disconnected_trigger_fulldescription">When gprs is switched off</string>
+    <string name="device_start_trigger_fulldescription">When device is restarted</string>
+    <string name="headset_connected_trigger_fulldescription">When headset is connected</string>
+    <string name="headset_disconnected_trigger_fulldescription">When headset is disconnected</string>
     <string name="wifi_switch_on_action_title">Wifi</string>
     <string name="wifi_switch_on_action_description">Switch on your Wifi</string>
     <string name="wifi_switch_off_action_title">Wifi</string>
@@ -98,9 +105,7 @@
     <string name="AlarmSwitchOnButtonText">ON</string>
     <string name="AlarmSwitchOffButtonText">Switch off the alarm</string>
     <string name="title_activity_alert_dialog">AlertDialogActivity</string>
-    <string name="title_activity_main_activity1">MainActivity1</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_activity_initial">InitialActivity</string>
+    <string name="title_activity_notification_chooser">Choose type of notifiction</string>
 
 </resources>
