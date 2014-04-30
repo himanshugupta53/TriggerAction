@@ -126,7 +126,14 @@ public class TriggerActionParser {
 	}
 	
 	public void saveInUserPreferences(){
+		saveInUserPreferences(null);
+	}
+	
+	public void saveInUserPreferences(Context context){
 		String key = trigger.toString();
+		if (context != null){
+			MyUserPreferences.setContext(context);
+		}
 		Set<String> triggerActions = MyUserPreferences.getStringSet(key);
 		Set<String> triggers = MyUserPreferences.getStringSet(MyUserPreferences.triggerKey);
 		if (triggerActions == null){
@@ -156,7 +163,7 @@ public class TriggerActionParser {
 	}
 	
 	public void performActionOnTrigger(Activity context){
-		saveInUserPreferences();
+		saveInUserPreferences(context);
 		trigger.checkAndPerformTaskInBackgroundService(context, this);
 //		trigger.registerBroadcastReceiver(context);
 	}
